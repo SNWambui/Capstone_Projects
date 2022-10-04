@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "farmer-weather"
+version = "0.1.0"
+description = ""
+authors = ["Stevedavies Wambui <44650523+SNWambui@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "farmer_weather"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
