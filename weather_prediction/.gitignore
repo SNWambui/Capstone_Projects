@@ -1,0 +1,23 @@
+# Distribution / packaging
+.Python
+.venv
+.env
+.django
+venv/
+env/
+django/
+*.sqlite3
+.idea/
+# Project asset folders
+media/
+# Django stuff: database
+*.log
+local_settings.py
+db.sqlite3
+
+# Editor directories and files
+.idea
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
