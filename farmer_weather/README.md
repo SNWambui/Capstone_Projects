@@ -28,6 +28,6 @@ Create a new superuser:<br>
 Start the development and check that there are no errors:<br>
 `python manage.py runserver`
 
-Here is a screenshot of what the web app should look like after a city has been entered[](Get_weather_image.jpeg)
+Here is a screenshot of what the web app should look like after a city has been entered![](Get_weather_image.jpeg)
 
 
