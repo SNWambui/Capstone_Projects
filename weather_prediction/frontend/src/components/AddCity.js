@@ -6,10 +6,11 @@ import { useState } from 'react'
 const AddCity = ({ onAdd }) => {
   const [city, setCity] = useState('')
 
+  // handle submission to form and check that a user enterned the city
   const onSubmit = (e) => {
     e.preventDefault()
 
-    // if city doesn't excist, ask user to add a city
+    // if city doesn't exist, ask user to add a city
     if (!city) {
       alert('Please add a city')
       return
@@ -19,22 +20,25 @@ const AddCity = ({ onAdd }) => {
     onAdd({ city })
 
     // clear the form
-    setCity('')
+    // setCity('')
+  }
+  
+  // handle changes to the form 
+  const onChange = (e) =>{
+    setCity(e.target.value)
   }
 
   return (
     <form className='add-form' onSubmit={onSubmit}>
       <div className='form-control'>
-        <label>City</label>
         <input
           type='text'
           placeholder='Add City'
           value={city}
-          onChange={(e) => setCity(e.target.value)}
+          onChange={onChange}
         />
       </div>
-
-      <input type='submit' value='Get City Weather' className='btn btn-block' />
+      <input type='submit' value='Get 5-day Forecast' className='btn btn-block' />
     </form>
   )
 }
