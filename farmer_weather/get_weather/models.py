@@ -2,7 +2,7 @@ from django.db import models
 
 # create city model and add it to the database.
 class City(models.Model):
-    # define the type for the cityes
+    # define the type for the cities
     name = models.CharField(max_length=25)
 
     def __str__(self):

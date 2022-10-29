@@ -19,25 +19,23 @@ from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print(BASE_DIR)
 
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
+# set the environment and DEBUG status
+env = environ.Env()
+DEBUG = env.bool('DEBUG', default=False)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-feknmvcd4fv4-7)d(xsq0_z3reaqa+v@8%@pen2ih03eth6zya'
+# Raises Django's ImproperlyConfigured
+# exception if SECRET_KEY not in os.environ
+SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -100,7 +98,7 @@ DATABASES = {
 #     # ImproperlyConfigured exception if not found
 #     #
 #     # The db() method is an alias for db_url().
-#     'default': env.db(),
+#     'default': env.db('DATABASE_URL'),
 
 #     # read os.environ['SQLITE_URL']
 #     'extra': env.db_url(
