@@ -9,6 +9,11 @@ Each of the Apps has a README file that gives instructions on how to run it. Giv
 I hope to deploy each of the apps for ease of access and to get practice on app deployment and learn how to deal with production changes. 
 
 ## Overview of the Apps
-### Weather Prediction
 ### Mkulima Project (Blogging App)
+App that allows users to log in or create an account and write blogs. Users can also see the feed and any announcements if any. Users have the option to upload a profile picture for their blogpage.
+
 ### Farmer Weather (Current Weather App)
+Farmer Weather is a django app that displays the weather of a given city on an interactive map. 
+
+### Weather Prediction
+This app allows users to get a 5 day forecast, see the history of weather for a given city in a given year and to get a 6 month forecast. 
