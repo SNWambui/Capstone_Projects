@@ -1,32 +1,26 @@
+/*
+This is the main app component where I import all other app components
+Importantly, the fetch request to get weather forecast is done here from
+openweatherApi and that is store in weatherData state and passed to linechart
+*/
+
 import './App.css';
 import React, { useEffect, useState, useReducer } from "react";
 // import Weather from './components/weather';
 import LineChart from "./components/LineChart"
 import AddCity from "./components/AddCity"
-import { Data } from './Data';
+import { HistoricalData } from './components/HistoricalData';
 
 export default function App() {
+  const [forecast, setForecast] = useState(false);
+  const [error, setError] = useState('');
 
   // state to store the data from the API call
   const [data, setData] = useState([]);
-  const [weather, setWeather] = useState({});
-  const [temperature, setTemperature] = useState([]);
-  const [humidity, setHumidity] = useState([]);
-  const [forecast, setForecast] = useState(false);
-  const [wind, setWind] = useState([]);
-  const [labels, setLabel] = useState([]);
-  const [error, setError] = useState('');
-  const [dt, setDt] = useState([]);
-  const [temp_max, setTempMax] = useState([]);
   const [weatherData, setWeatherData] = useState({undefined})
   const [city, setCity] = useState('')
-
-const initialState = {labels: ''};
-// const [state, dispatch] = useReducer(reducer, initialState);
-
-
-
   
+  // get the forecast for the given city
   const getWeather = async (city) => {
     if(!city){
       console.log("Add City")
@@ -46,30 +40,29 @@ const initialState = {labels: ''};
     }, [city])
 
         // the code below is inspired by: https://github.com/lakshyajit165/weatherapp/blob/master/src/App.js
-  // useEffect hook is important to ensure that there is no
+  // useEffect hook is important to ensure that there is no infinte renders
   useEffect(()=> {
-    let labs = [];
-    let temps = [];
-    let hums = [];
+    let labels = [];
+    let temperature = [];
+    let humidity = [];
+    let dt;
     if(city){
     if(!data.list){
       console.log("Unable to get weather info! Please check city you entered")
-      // return <div> Loading...</div?
+      // return <div> Loading...</div>
         // setError("Unable to get weather info! Please check city you entered")
     }else{
-        
-        let dt; 
         for(let i = 0; i<data.list.length; i++){
           dt = data.list[i];
           let date_ = dt.dt_txt.split(' ')[0];
         
-            if(!labs.includes(date_) && dt.dt_txt.split(' ')[1] === '12:00:00'){
-              // labels.push(date_);
-              labs.push(dt.dt_txt.split(' ')[0]);
-              temp_max.push(dt.main['temp_max']);
-              temps.push(dt.main['temp']);
-              hums.push(dt.main['humidity']);
-              wind.push(dt.wind['speed']);
+            if(!labels.includes(date_) && dt.dt_txt.split(' ')[1] === '12:00:00'){
+              labels.push(dt.dt_txt.split(' ')[0]);
+              
+              temperature.push(dt.main['temp']);
+              humidity.push(dt.main['humidity']);
+              // wind.push(dt.wind['speed']);
+              // temp_max.push(dt.main['temp_max']);
             }
         
       }
@@ -79,12 +72,14 @@ const initialState = {labels: ''};
       }
     }
   }
-   
+    
+    // store the weather data in chartjs format and then set the state
     const newWeather = {
-      labels: labs,
+      labels: labels,
       datasets: [{
         label: "Temperature",
-        data: temps,
+        data: temperature,
+        borderColor:  "#ffbb11",
         backgroundColor: [
           "#ffbb11",
           "#ecf0f1",
@@ -95,14 +90,14 @@ const initialState = {labels: ''};
       },
       {
         label: "Humidity",
-        // data: data.list[0].main.humidity,
-        data: hums,
+        data: humidity,
+        borderColor: "#2a71d0",
         backgroundColor: [
           "#f3ba2f",
+          "#ecf0f1",
           "#50AF95",
           "#ffbb11",
-          "#2a71d0",
-          "#ecf0f1"
+          "#2a71d0"
         ],
       },
       ],
@@ -111,12 +106,8 @@ const initialState = {labels: ''};
     }
     setWeatherData(oldWeather => ({...oldWeather, ...newWeather}));
 
-  }, [data.list, labels, temp_max, temperature, humidity, wind, city])
+  }, [data.list, city])
   
-  
-  // console.log("This is weather data", Object.keys(weatherData).length);
-  // console.log("this is data", data.list[0])
-// /console.log("This is weather", typeof(weatherData))
 
 
   return (
@@ -128,7 +119,7 @@ const initialState = {labels: ''};
       </div> : <div></div>
       }
        <div style={{ width: 700 }}>
-       <Data/>
+       <HistoricalData/>
        </div>
       
       <div>
