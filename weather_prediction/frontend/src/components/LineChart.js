@@ -18,7 +18,8 @@ const LineChart = ({chartData, city}) =>{
             title: {
                 display: true,
                 align: 'center',
-                text: `Weather Forecast for ${city}`
+                text: `Weather Forecast for ${city}`,
+                fontSize: 20,
             }
         },
         maintainAspectRatio: true,
