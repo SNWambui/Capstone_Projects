@@ -33,7 +33,6 @@ export const HistoricalData = ({props}) => {
       header: true,
       skipEmptyLines: true,
       complete: function (results) {
-        const rowsArray = [];
         const valuesArray = [];
   
         // Iterating data to get column name and their values
@@ -44,10 +43,7 @@ export const HistoricalData = ({props}) => {
   
         // Parsed Data Response in array format
         setParsedData(results.data);
-  
-       
-        // setValues(oldValue => ({...oldValue, ...valuesArray}));
-        
+
         let label = [];
         let temperature = [];
         let rainfall = [];
@@ -57,9 +53,6 @@ export const HistoricalData = ({props}) => {
         }else{
         
         for(let i = 0; i<valuesArray.length; i++){
-      
-          // if(!labels.includes(date_) && dt.dt_txt.split(' ')[1] === '12:00:00'){
-              // labels.push(date_);
           year.push(valuesArray[i][0]);
           label.push(valuesArray[i][1]);
           temperature.push(valuesArray[i][2]);
