@@ -19,7 +19,7 @@ export const HistoricalData = ({props}) => {
   const [parsedData, setParsedData] = useState([]);
 
   // state to store chart data , years
-  const [tempData, setTempData] = useState({})
+  const [weatherData, setWeatherData] = useState({})
 
   const [years, setYears] = useState([]);
 
@@ -50,6 +50,7 @@ export const HistoricalData = ({props}) => {
         
         let label = [];
         let temperature = [];
+        let rainfall = [];
         let year = [];
         if(!valuesArray){
           console.log("no values")
@@ -62,21 +63,27 @@ export const HistoricalData = ({props}) => {
           year.push(valuesArray[i][0]);
           label.push(valuesArray[i][1]);
           temperature.push(valuesArray[i][2]);
+          rainfall.push(valuesArray[i][3]);
         }}
         // 
-        console.log('this is year', year)
-        // setTemperature(temperature);
-        // setLabels(labels);
-        const newTemp = {
+        console.log('this is year', rainfall)
+        
+        // variable to store the weather data
+        const newWeather = {
           labels:  label,
           datasets: [{
             label: "temperature",
             data: temperature,
+            borderColor: 'rgb(255, 99, 132)',
+          },
+          {
+            label: "Rainfall",
+            data: rainfall,
           }],
           borderWidth: 2,
         }
         // set the temperature data
-        setTempData(oldTemp => ({...oldTemp, ...newTemp}))
+        setWeatherData(oldWeather => ({...oldWeather, ...newWeather}))
 
          // Filtered Values
         setYears(oldYear => ({...oldYear, ...year}));
@@ -85,14 +92,16 @@ export const HistoricalData = ({props}) => {
     });
   }
 
+  // get the lables and create a list to store the options
   var dropLabels = [...new Set(Object.values(years))]
   var optionsList = [];
 
+  // loop throough all the labels and create a dict for options for select
   dropLabels.forEach(function(elem){
     optionsList.push({label:elem, value:elem})
   })
 
-  const allYears = tempData
+  const allYears = weatherData
   const getYearHistory = (year) =>{
     const allYears = getHistory()
     return JSON.stringify(allYears)
@@ -103,29 +112,11 @@ export const HistoricalData = ({props}) => {
   //   getHistory();
   // }, [])
 
-  // getHistoricalWeather Data
-  // - default is 2022
-  // - year == '2022'
-  // - dropdown: select year 
-  // - if year === year, show the average for that year
-
   return(
     <div>
     <button type="button" className='btn btn-block' onClick={getHistory}>Get Historical Weather</button>
-    {/* {console.log("this is new years", [...new Set(Object.keys(years).map(key => years[key]))])} */}
-    {/* {console.log("this is all years", {allYears})} */}
     <Select options={optionsList}/>
-    {Object.keys(tempData).length>1 ? <Line data={tempData}/> : <div></div>}
+    {Object.keys(weatherData).length>1 ? <Line data={weatherData}/> : <div></div>}
   </div>
   )
 }
-// fs.readFile(csvFile, 'utf8', function (err, data) {
-//   if (err) {
-//       throw err;
-//   }
-//   Papa.parse(data, {
-//    step: function (row) {
-//     console.log("Row:", row.data);
-//    }
-//  });
-// });
