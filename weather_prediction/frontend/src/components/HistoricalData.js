@@ -22,9 +22,52 @@ export const HistoricalData = ({props}) => {
   const [weatherData, setWeatherData] = useState({})
 
   const [years, setYears] = useState([]);
+  const [filterYear, setFilterYear] = useState({label:'2016', value:'2016'})
+
+  const [chart, toggleChart] = useState(false)
 
 
   const getHistory = () =>{
+    if(!csvFile){
+      console.log("Add file")
+    }
+    Papa.parse(csvFile, {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function (results) {
+        const valuesArray = [];
+  
+        // Iterating data to get column name and their values
+        results.data.map((d) => {
+          // rowsArray.push(Object.keys(d));
+          return valuesArray.push(Object.values(d));
+      });
+  
+        let year = [];
+        if(!valuesArray){
+          console.log("no values")
+        }else{
+        
+        for(let i = 0; i<valuesArray.length; i++){
+          year.push(valuesArray[i][0]);
+        }}
+
+         // Filtered Values
+        setYears(oldYear => ({...oldYear, ...year}));
+
+      },
+    });
+  }
+
+  const handleClick = () => {
+    if(!chart){
+      toggleChart(true)
+    }
+
+  }
+
+  const filterHistory = (targetYear) =>{
     if(!csvFile){
       console.log("Add file")
     }
@@ -50,16 +93,20 @@ export const HistoricalData = ({props}) => {
         let year = [];
         if(!valuesArray){
           console.log("no values")
-        }else{
+        }else if(!targetYear){
+          console.log('No year')
+        }
+        else{
         
         for(let i = 0; i<valuesArray.length; i++){
-          year.push(valuesArray[i][0]);
-          label.push(valuesArray[i][1]);
-          temperature.push(valuesArray[i][2]);
-          rainfall.push(valuesArray[i][3]);
+          if(valuesArray[i][0]===Object.values(targetYear)[0]){
+            year.push(valuesArray[i][0]);
+            label.push(valuesArray[i][1]);
+            temperature.push(valuesArray[i][2]);
+            rainfall.push(valuesArray[i][3]);
+          }
         }}
-        // 
-        console.log('this is year', rainfall)
+
         
         // variable to store the weather data
         const newWeather = {
@@ -79,7 +126,8 @@ export const HistoricalData = ({props}) => {
         setWeatherData(oldWeather => ({...oldWeather, ...newWeather}))
 
          // Filtered Values
-        setYears(oldYear => ({...oldYear, ...year}));
+        // setYears(oldYear => ({...oldYear, ...year}));
+        getHistory()
 
       },
     });
@@ -95,11 +143,13 @@ export const HistoricalData = ({props}) => {
   })
 
   const allYears = weatherData
-  const getYearHistory = (year) =>{
-    const allYears = getHistory()
-    return JSON.stringify(allYears)
-  }
-  
+  useEffect(() => {
+    // console.log("current choice", filterYear)
+    
+    // filter and update chart data
+    filterHistory(filterYear)
+
+  }, [filterYear] );
   // to use when pulling data from API
   // useEffect(() => {
   //   getHistory();
@@ -107,9 +157,26 @@ export const HistoricalData = ({props}) => {
 
   return(
     <div>
-    <button type="button" className='btn btn-block' onClick={getHistory}>Get Historical Weather</button>
-    <Select options={optionsList}/>
-    {Object.keys(weatherData).length>1 ? <Line data={weatherData}/> : <div></div>}
+    <button type="button" className='btn btn-block' onClick={handleClick}>Get Historical Weather</button>
+    <Select options={optionsList} onChange = {(choice) => {
+      setFilterYear(choice)
+      console.log('this is ichu', choice)
+      }}/>
+    {chart ? <Line data={weatherData}
+     options={{
+      plugins: {
+          title: {
+              display: true,
+              align: 'center',
+              text: `Historical Weather For ${Object.values(filterYear)[0]}`,
+              fontSize: 20,
+          }
+      },
+      maintainAspectRatio: true,
+      duration: 2000
+      }} /> : <div></div>}
+    {/* {filterYear?<Line data={weatherData}/> : <div></div>}} */}
+    {/* {weatherData ? <Line data={weatherData}/> : <div></div>} */}
   </div>
   )
 }
