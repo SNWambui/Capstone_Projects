@@ -10,6 +10,7 @@ import React, { useEffect, useState, useReducer } from "react";
 import LineChart from "./components/LineChart"
 import AddCity from "./components/AddCity"
 import { HistoricalData } from './components/HistoricalData';
+import Forecast from './components/Forecast';
 
 export default function App() {
   const [forecast, setForecast] = useState(false);
@@ -121,10 +122,9 @@ export default function App() {
        <div style={{ width: 700 }}>
        <HistoricalData/>
        </div>
-      
-      <div>
-        <button type="button" className='btn btn-block'>Get 6 month Forecast</button>
-      </div>
+       <div style={{ width: 700 }}>
+       <Forecast/>
+       </div>
 
     </div>
   );

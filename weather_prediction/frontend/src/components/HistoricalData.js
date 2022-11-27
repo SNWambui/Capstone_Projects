@@ -144,7 +144,6 @@ export const HistoricalData = ({props}) => {
 
   const allYears = weatherData
   useEffect(() => {
-    // console.log("current choice", filterYear)
     
     // filter and update chart data
     filterHistory(filterYear)
@@ -157,11 +156,11 @@ export const HistoricalData = ({props}) => {
 
   return(
     <div>
-    <button type="button" className='btn btn-block' onClick={handleClick}>Get Historical Weather</button>
-    <Select options={optionsList} onChange = {(choice) => {
+      <Select options={optionsList} defaultValue={{ label: "Select Year For History", value: 0 }} onChange = {(choice) => {
       setFilterYear(choice)
-      console.log('this is ichu', choice)
       }}/>
+    <button type="button" className='btn btn-block' onClick={handleClick}>Get Historical Weather</button>
+    
     {chart ? <Line data={weatherData}
      options={{
       plugins: {
