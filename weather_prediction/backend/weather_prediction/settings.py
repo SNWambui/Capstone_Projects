@@ -52,9 +52,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'weather_patterns',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -63,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'weather_prediction.urls'
@@ -165,3 +168,19 @@ STATIC_ROOT = BACKEND_DIR / 'static'
 
 # important for production and handling wsgi
 WHITENOISE_ROOT = FRONTEND_DIR / 'build' / 'root'
+
+# REST_FRAMEWORK = {
+
+#     # 'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+#     'DEFAULT_PARSER_CLASSES': [
+#         'rest_framework.parsers.JSONParser',
+#     ]
+# }
+
+# important for rest API connection with frontend
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+
+# # change to https://app.example.com in production settings
+# CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+# CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']

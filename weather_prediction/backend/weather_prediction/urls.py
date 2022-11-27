@@ -20,6 +20,6 @@ from weather_patterns import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'', views.catchall),
-    path('api/', include('rest_framework.urls'))
+    # re_path(r'', views.catchall_dev),
+    path('api/', include('weather_patterns.urls'))
 ]
