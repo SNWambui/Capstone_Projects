@@ -15,8 +15,8 @@ a{
   justify-content: center; /* center items horizontally, in this case */
   align-items: center;     /* center items vertically, in this case */
   border-radius:50%;
-  height:200px;
-  width:200px;
+  height:400px;
+  width:400px;
   right: 100px;
   background:orange;
   box-shadow: 0 0 10px orange,
@@ -44,6 +44,7 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 250vh 100vh;
+  background-color: rgba(223, 240, 230, 0.6)
 
   
 }
@@ -56,7 +57,7 @@ body {
   border: 1px solid steelblue;
   padding: 1px;
   border-radius: 5px;
-  background-color: #313133a4;
+  background-color: #3c826ea4;
 }
 
 .header {
@@ -65,6 +66,34 @@ body {
   align-items: center;
   margin-bottom: 20px;
 }
+
+.navbar{
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: #099f6de1;
+  color: white;
+  font-family: 'Exo 2', sans-serif;
+  padding: 1em;
+}
+.navlink{
+  color: '#fff';
+  background: '#7600dc';
+  display: inline;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+.navlink li{
+  margin: 20px;
+
+}
+
 
 .btn {
   display: inline-block;
@@ -163,7 +192,7 @@ footer {
   margin: 10px;
   width: 200px;
   height: 200px;
-  background: #c7cbd0;
+  background: #86d6af;
   border-radius: 50%;
   box-shadow: inset -25px 0px 0 0px #9098a1;
   transition: transform 0.2s ease-in-out;
@@ -237,7 +266,7 @@ li:nth-child(7) {
   top:50px;
   width:1px;
   height:1px;
-  background-color:white;
+  background-color:rgb(22, 144, 97);
   position:fixed;
   animation-name:particleAnimation;
   animation-timing-function: infinite;
@@ -346,7 +375,7 @@ li:nth-child(7) {
 }
 
 h1,h3,p,label {
-  color: whitesmoke;
+  color: rgb(240, 245, 242);
 }
 
 @keyframes particleAnimation
@@ -373,7 +402,7 @@ h1,h3,p,label {
   justify-content: center;
   flex-direction: column;
   min-height: 100vh;
-  background: #0c0c2b;
+  background: #219c5c;
   }
   
   to {
@@ -397,7 +426,7 @@ h1,h3,p,label {
 }
 
 .logo {
-  color: white;
+  color: rgb(25, 23, 23);
   font-family: Sail;
 }
 
