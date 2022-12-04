@@ -3,7 +3,7 @@ This is the main app component where I import all other app components
 Importantly, the fetch request to get weather forecast is done here from
 openweatherApi and that is store in weatherData state and passed to linechart
 */
-
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import React, { useEffect, useState, useReducer } from "react";
 // import Weather from './components/weather';
@@ -11,6 +11,8 @@ import LineChart from "./components/LineChart"
 import AddCity from "./components/AddCity"
 import { HistoricalData } from './components/HistoricalData';
 import Forecast from './components/Forecast';
+import Header from './components/Header';
+import NavBar from './components/NavBar';
 
 export default function App() {
   const [forecast, setForecast] = useState(false);
@@ -113,6 +115,8 @@ export default function App() {
 
   return (
     <div className="App">
+      <NavBar/>
+      <Header/>
       <AddCity onAdd={getWeather}/>
       {city ? 
       <div style={{ width: 700 }}>

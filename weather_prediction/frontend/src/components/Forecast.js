@@ -2,7 +2,7 @@
 
 import csvFile from '/Users/stevedavieswambui/Desktop/Capstone_projects/Different_Apps/weather_prediction/frontend/src/components/data_sources/kenya-climate-data-1991-2016-temp-degress-celcius.csv'
 import Papa from "papaparse";
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import * as settings from '../settings';
 import {Line} from "react-chartjs-2"
@@ -128,7 +128,7 @@ const getForecast = () =>{
       // maintainAspectRatio: true,
       // duration: 2000
       }} />
-      : <div>"Click Button To Get Forecast"</div>}
+      : <div></div>}
    
       </div>
 

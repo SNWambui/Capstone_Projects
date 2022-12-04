@@ -7,7 +7,7 @@ given the year and city name from the form in the AddCity component.
 
 import csvFile from '/Users/stevedavieswambui/Desktop/Capstone_projects/Different_Apps/weather_prediction/frontend/src/components/data_sources/kenya-climate-data-1991-2016-temp-degress-celcius.csv'
 import Papa from "papaparse";
-import { useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import Select from 'react-select'
 import {Line} from "react-chartjs-2"
 // // need this to display chart data in React
