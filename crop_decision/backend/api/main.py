@@ -1,9 +1,12 @@
 # Importing necessary libraries
 import uvicorn
 import pickle
+import jwt
 from pydantic import BaseModel
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.encoders import jsonable_encoder
+
 
 # Initializing the fast API server
 app = FastAPI()
@@ -30,70 +33,86 @@ model = pickle.load(open('/Users/stevedavieswambui/Desktop/Capstone_projects/Dif
 
 # Defining the model input types for normal soil
 class YieldNormal(BaseModel):
-    Crop_Drained_CO2_ktns: float
-    Crop_Drained_N2O_ktns:  float
-    K2O_kgha_per_croparea: float
-    Nitrogen_emissions_ktns: float
-    Nitrogen_kgha_per_croparea: float
-    P205_kgha_per_croparea: float
-    avg_manure_soil_kg: float
-    avg_rain_mm: float
-    avg_temp_c: float
-    carbon_emissions_ktns: float
-    methane_emissions_ktns: float 
-    pesticides_kgha_per_croparea: float
+    cropDrainedCarbonKtns: float
+    cropDrainedNitrogenKtns:  float
+    potashKgha: float
+    nitrogenEmissionsKtns: float
+    nitrogenKgha: float
+    phosphateKgha: float
+    manureNormalSoilKg: float
+    avgRainMm: float
+    avgTempC: float
+    carbonEmissionsKtns: float
+    methaneEmissionsKtns: float 
+    pesticidesKgha: float
 
 # Defining the model input types for leached soil
 class YieldLeached(BaseModel):
-    Crop_Drained_CO2_ktns: float
-    Crop_Drained_N2O_ktns:  float
-    K2O_kgha_per_croparea: float
-    Nitrogen_emissions_ktns: float
-    Nitrogen_kgha_per_croparea: float
-    P205_kgha_per_croparea: float
-    avg_manure_leach_soil_kg: float
-    avg_rain_mm: float
-    avg_temp_c: float
-    carbon_emissions_ktns: float
-    methane_emissions_ktns: float 
-    pesticides_kgha_per_croparea: float
+    cropDrainedCarbonKtns: float
+    cropDrainedNitrogenKtns:  float
+    potashKgha: float
+    nitrogenEmissionsKtns: float
+    nitrogenKgha: float
+    phosphateKgha: float
+    manureLeachedSoilKg: float
+    avgRainMm: float
+    avgTempC: float
+    carbonEmissionsKtns: float
+    methaneEmissionsKtns: float 
+    pesticidesKgha: float
 
 # Defining the model input types for votalise soil
 class YieldVotalise(BaseModel):
-    Crop_Drained_CO2_ktns: float
-    Crop_Drained_N2O_ktns:  float
-    K2O_kgha_per_croparea: float
-    Nitrogen_emissions_ktns: float
-    Nitrogen_kgha_per_croparea: float
-    P205_kgha_per_croparea: float
-    avg_manure_votalise_soil_kg: float
-    avg_rain_mm: float
-    avg_temp_c: float
-    carbon_emissions_ktns: float
-    methane_emissions_ktns: float 
-    pesticides_kgha_per_croparea: float
+    cropDrainedCarbonKtns: float
+    cropDrainedNitrogenKtns:  float
+    potashKgha: float
+    nitrogenEmissionsKtns: float
+    nitrogenKgha: float
+    phosphateKgha: float
+    manureVolatiliseSoilKg: float
+    avgRainMm: float
+    avgTempC: float
+    carbonEmissionsKtns: float
+    methaneEmissionsKtns: float 
+    pesticidesKgha: float
+
+
+SECERT_KEY = "YOUR_FAST_API_SECRET_KEY"
+ALGORITHM ="HS256"
+ACCESS_TOKEN_EXPIRES_MINUTES = 800
+
+test_user = {
+   "username": "temitope",
+    "password": "temipassword"
+
+}
+
+class LoginItem(BaseModel):
+    username: str
+    password: str
+
 
 # Setting up the home route
 @app.get("/")
 def read_root():
-    return {"data": "Welcome to online employee hireability prediction model"}
+    return {"data": "Welcome to crop yield prediction system"}
 
 # Setting up the prediction route
 @app.post("/prediction/")
 async def get_predict(data: YieldNormal):
     sample = [[
-        data.Crop_Drained_CO2_ktns,
-        data.Crop_Drained_N2O_ktns,
-        data.K2O_kgha_per_croparea,
-        data.Nitrogen_emissions_ktns,
-        data.Nitrogen_kgha_per_croparea,
-        data.P205_kgha_per_croparea,
-        data.avg_manure_soil_kg,
-        data.avg_rain_mm,
-        data.avg_temp_c,
-        data.carbon_emissions_ktns,
-        data.methane_emissions_ktns,
-        data.pesticides_kgha_per_croparea
+        data.cropDrainedCarbonKtns,
+        data.cropDrainedNitrogenKtns,
+        data.potashKgha,
+        data.nitrogenEmissionsKtns,
+        data.nitrogenKgha,
+        data.phosphateKgha,
+        data.manureNormalSoilKg,
+        data.avgRainMm,
+        data.avgTempC,
+        data.carbonEmissionsKtns,
+        data.manureNormalSoilKg,
+        data.pesticidesKgha
     ]]
     
     
@@ -104,6 +123,21 @@ async def get_predict(data: YieldNormal):
             'interpretation': "hehe"
         }
     }
+
+# function to handle login and authentication
+@app.post("/login/")
+async def user_login(loginitem:LoginItem):
+
+
+    data = jsonable_encoder(loginitem)
+
+    if data['username']== test_user['username'] and data['password']== test_user['password']:
+
+        encoded_jwt = jwt.encode(data, SECERT_KEY, algorithm=ALGORITHM)
+        return {"token": encoded_jwt}
+
+    else:
+        return {"message":"login failed"}
 
 # Configuring the server host and port
 if __name__ == '__main__':
