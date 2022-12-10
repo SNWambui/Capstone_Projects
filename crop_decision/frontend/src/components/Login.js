@@ -36,9 +36,6 @@ export default function Login() {
   return (
     <div className="form">
       <div>
-        {fetchToken() ? (
-          <p>you are logged in</p>
-        ) : (
           <div>
             <form>
             <h1 className="form-title">Login</h1>
@@ -69,7 +66,6 @@ export default function Login() {
               </button>
             </form>
           </div>
-        )}
       </div>
     </div>
   );

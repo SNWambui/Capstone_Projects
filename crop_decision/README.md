@@ -9,7 +9,17 @@ This is a React and FASTAPI app that:
 
 ## How to run the app locally
 
+1. Navigate to a desired project directory and clone the repository: https://github.com/SNWambui/Capstone_Projects/tree/main/crop_decision
+2. Navigate to the frontend directory and run: npm start.<br> This will run on localhost:3000 will display the sign up page.
+3. Before signing up, navigate into the backend api folder: `cd backend/api`.
+4. Create a virtualenv `python3 -m virtualenv env`
+5. Activate virtualenv `source env/bin/activate`
+6. nstall the required packages `python -m pip install -r requirements.txt`
+Start the app using Uvicorn uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8002
+Ensure you have a Postgres Database running locally. Additionally create a Fast_api_dev db with user fast_api having required priviledges OR Change the DATABASE_URL variable in the .env file to reflect db settings (user:password/db)
+Check the app on notes
+Api documentation generated on docs
 
-Here is a screenshot of what the web app should look like ![](Crop_Decision.jpeg)
+Here is a screenshot of what the web app should look like ![](crop_decision.png)
 
 ## Release Notes
