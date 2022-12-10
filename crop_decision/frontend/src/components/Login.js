@@ -53,7 +53,7 @@ export default function Login() {
             <div className="form-control">
                 <input 
                     type="password" 
-                    id="loginName" 
+                    id="setPasswprd" 
                     className="form-control input"
                     placeholder="Enter Password"
                     onChange={(e) => setPassword(e.target.value)}

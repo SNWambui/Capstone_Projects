@@ -14,11 +14,9 @@ This is a React and FASTAPI app that:
 3. Before signing up, navigate into the backend api folder: `cd backend/api`.
 4. Create a virtualenv `python3 -m virtualenv env`
 5. Activate virtualenv `source env/bin/activate`
-6. nstall the required packages `python -m pip install -r requirements.txt`
-Start the app using Uvicorn uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8002
-Ensure you have a Postgres Database running locally. Additionally create a Fast_api_dev db with user fast_api having required priviledges OR Change the DATABASE_URL variable in the .env file to reflect db settings (user:password/db)
-Check the app on notes
-Api documentation generated on docs
+6. Install the required packages `python -m pip install -r requirements.txt`
+7. Start the app using Uvicorn `uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8080`
+8. Login in localhost:3000/login and enter the crop conditions.
 
 Here is a screenshot of what the web app should look like ![](crop_decision.png)
 

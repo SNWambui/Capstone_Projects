@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
+from hashing import Hash
 
 
 # Initializing the fast API server
@@ -81,16 +82,24 @@ SECERT_KEY = "YOUR_FAST_API_SECRET_KEY"
 ALGORITHM ="HS256"
 ACCESS_TOKEN_EXPIRES_MINUTES = 800
 
-test_user = {
-   "username": "stevedavies",
-    "password": "temipassword"
-
+test_users = {
+    1:{
+    "username": "stevedavies",
+    "password": "temipassword",
+    "email": "stevedaviesndegwa@gmail.com"
+    }
 }
 
 class LoginItem(BaseModel):
     username: str
     password: str
 
+class User(BaseModel):
+    username: str
+    email: str
+    password1: str
+    password2: str
+    # password2: str
 
 # Setting up the home route
 @app.get("/")
@@ -130,14 +139,28 @@ async def user_login(loginitem:LoginItem):
 
 
     data = jsonable_encoder(loginitem)
+    for i in test_users:
+        if data['username']== test_users[i]['username'] and data['password1']== test_users[i]['password']:
 
-    if data['username']== test_user['username'] and data['password']== test_user['password']:
+            encoded_jwt = jwt.encode(data, SECERT_KEY, algorithm=ALGORITHM)
+            return {"token": encoded_jwt}
 
-        encoded_jwt = jwt.encode(data, SECERT_KEY, algorithm=ALGORITHM)
-        return {"token": encoded_jwt}
+        else:
+            return {"message":"login failed"}
 
-    else:
-        return {"message":"login failed"}
+@app.post("/register/")
+async def register(request: User):
+
+    data = jsonable_encoder(User)
+    print("this is data", data)
+    # hashed_pass = Hash.bcrypt(request.password)
+    user_object = dict(request)
+    user_object["username"] = request.username
+    user_object["email"] = request.email
+    user_object["password"] = request.password
+    test_users[list(test_users)[-1]+1] = user_object
+    return {"message":"created"}
+
 
 # Configuring the server host and port
 if __name__ == '__main__':
