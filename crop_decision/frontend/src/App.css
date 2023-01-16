@@ -15,15 +15,24 @@
 
 .App-header {
   background-color: #1cd632;
-  min-height: 100vh;
+  min-height: 30vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: rgb(29, 238, 161);
-  background-image: url('https://mdbootstrap.com/img/new/slides/041.webp');
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/cb/Harvesting_Napier.jpg');
+  object-fit: cover;
+  object-position: -50% 0;
 
+}
+
+.App-h1, .App-h3{
+  font-family: sans-serif;
+  text-align: center;
+  margin: 10px;
+  color: rgb(249, 249, 249);
 }
 
 .App-link {

@@ -12,6 +12,7 @@ function App() {
       <Header/>
     <Router>
       <Routes>
+        <Route path="/" element = {<Prediction/>}/>
         <Route path="/login/" element = {<Login/>}/>
         <Route path="/register/" element = {<Register/>}/>
         <Route path="/home/" element = {<Prediction/>}/>
