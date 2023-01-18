@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 from hashing import Hash
+from urllib.request import urlopen
 
 
 # Initializing the fast API server
@@ -19,6 +20,7 @@ origins = [
     "http://localhost:8000",
     "http://localhost:8080",
     "http://localhost:3000",
+    "https://crop-decision-hub.vercel.app",
 ]
 
 app.add_middleware(
@@ -30,7 +32,10 @@ app.add_middleware(
 )
 
 # Loading up the trained model
-model = pickle.load(open('/Users/stevedavieswambui/Desktop/Capstone_projects/Different_Apps/crop_decision/backend/model/bean_normal_model', 'rb'))
+# model = pickle.load(open('/Users/stevedavieswambui/Desktop/Capstone_projects/Different_Apps/crop_decision/backend/model/bean_normal_model', 'rb'))
+import cloudpickle as cp
+model = cp.load(urlopen("https://github.com/SNWambui/Capstone_Projects/blob/main/crop_decision/backend/model/bean_normal_model"))
+
 
 # Defining the model input types for normal soil
 class YieldNormal(BaseModel):
@@ -164,5 +169,5 @@ async def register(request: User):
 
 # Configuring the server host and port
 if __name__ == '__main__':
-    # uvicorn.run(app, port=8080, host='0.0.0.0')
+    uvicorn.run(app, port=8080, host='0.0.0.0')
     uvicorn.run(app, host='0.0.0.0', port=8080, debug=True)
