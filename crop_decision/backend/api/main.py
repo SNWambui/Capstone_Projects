@@ -32,9 +32,9 @@ app.add_middleware(
 )
 
 # Loading up the trained model
-# model = pickle.load(open('/Users/stevedavieswambui/Desktop/Capstone_projects/Different_Apps/crop_decision/backend/model/bean_normal_model', 'rb'))
-import cloudpickle as cp
-model = cp.load(urlopen("https://github.com/SNWambui/Capstone_Projects/blob/main/crop_decision/backend/model/bean_normal_model"))
+model = pickle.load(open('backend/api/model/bean_votalise_model', 'rb'))
+# import cloudpickle as cp
+# model = cp.load(urlopen("https://github.com/SNWambui/Capstone_Projects/blob/main/crop_decision/backend/model/bean_normal_model.pkl"))
 
 
 # Defining the model input types for normal soil
