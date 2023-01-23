@@ -1,0 +1,5 @@
+fastapi
+jwt
+pydantic
+uvicorn
+passlib
