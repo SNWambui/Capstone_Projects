@@ -3,3 +3,4 @@ jwt
 pydantic
 uvicorn
 passlib
+pandas
