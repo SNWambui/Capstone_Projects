@@ -47,3 +47,5 @@ To display all three, you will need to run the Django backend since the API call
 This will run on localhost:8000
 
 Here is a screenshot of what the web app should look like after a city has been entered ![](Weather_Prediction.jpeg)
+
+## Release Notes
