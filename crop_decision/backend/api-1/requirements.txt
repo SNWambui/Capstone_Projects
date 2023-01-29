@@ -4,3 +4,7 @@ pydantic
 uvicorn
 passlib
 pandas
+gunicorn
+uvloop
+httptools
+scikit-learn

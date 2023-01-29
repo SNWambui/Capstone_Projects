@@ -28,9 +28,11 @@ function Prediction() {
         manureNormalSoilKg,methaneEmissionsKtns,nitrogenEmissionsKtns,nitrogenKgha,pesticidesKgha,phosphateKgha,potashKgha
       }
       axios
-        .post('http://localhost:8080/prediction', params)
+        //.post('http://localhost:8080/prediction', params)
+        .post('https://crop-decision.herokuapp.com/prediction', params) //updated to include hosted site
         .then((res) => {
           const data = res.data.data
+          console.log("this is data", data)
           const msg = `Total Predicted Yield of Bean is ${data.prediction} Hectograms per Hectare`
           setUserOutput(msg)
           reset()
