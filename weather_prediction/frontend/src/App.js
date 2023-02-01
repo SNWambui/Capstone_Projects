@@ -33,6 +33,7 @@ export default function App() {
 
       setCity(city)
       // note that city returns a dictionary and so need to query city.city to get the actual city name. 
+      console.log(`${process.env.REACT_APP_API_URL}/forecast/?q=${city.city}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`)
       const res = await fetch(`${process.env.REACT_APP_API_URL}/forecast/?q=${city.city}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`)
       const data = await res.json()
       setData(data)
