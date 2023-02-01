@@ -5,7 +5,8 @@ The improvement to this is using a paid weather API to get historical data
 given the year and city name from the form in the AddCity component. 
 */
 
-import csvFile from '/Users/stevedavieswambui/Desktop/Capstone_projects/Different_Apps/weather_prediction/frontend/src/components/data_sources/kenya-climate-data-1991-2016-temp-degress-celcius.csv'
+// import csvFile from 'https://tinyurl.com/weather-data1'
+import csvFile from "./../kenya-climate-data-1991-2016-temp-degress-celcius.csv"
 import Papa from "papaparse";
 import React, {useEffect, useState } from 'react';
 import Select from 'react-select'

@@ -115,7 +115,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <NavBar/>
+      {/* <NavBar/> */}
       <Header/>
       <AddCity onAdd={getWeather}/>
       {city ? 

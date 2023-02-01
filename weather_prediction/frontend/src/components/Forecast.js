@@ -1,6 +1,7 @@
 /* */
 
-import csvFile from '/Users/stevedavieswambui/Desktop/Capstone_projects/Different_Apps/weather_prediction/frontend/src/components/data_sources/kenya-climate-data-1991-2016-temp-degress-celcius.csv'
+// import csvFile from 'https://tinyurl.com/weather-data1'
+import csvFile from "./../kenya-climate-data-1991-2016-temp-degress-celcius.csv"
 import Papa from "papaparse";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
