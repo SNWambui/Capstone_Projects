@@ -113,7 +113,7 @@ const getForecast = () =>{
     <div>
         <button type="button" className='btn btn-block' onClick={getForecast}>Get 12 month Forecast</button>
         {/* {console.log("This is forecast",JSON.parse(forecast['data']).temp)} */}
-        {console.log("This is forecast length", Object.keys(weatherData).length)}
+        {/* {console.log("This is forecast length", Object.keys(weatherData).length)} */}
        
     {Object.keys(weatherData).length > 1? 
     <Line data={weatherData}
