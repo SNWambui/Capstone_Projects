@@ -167,7 +167,7 @@ STATICFILES_STORAGE = (
 STATIC_ROOT = BACKEND_DIR / 'static'
 
 # important for production and handling wsgi
-WHITENOISE_ROOT = FRONTEND_DIR / 'build' / 'root'
+# WHITENOISE_ROOT = FRONTEND_DIR / 'build' / 'root'
 
 # REST_FRAMEWORK = {
 
@@ -185,7 +185,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
 # change the values to environment
-SECURE_HSTS_SECONDS = 30  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
+SECURE_HSTS_SECONDS = 35  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
 # overall important security settings
 # ========================
 # SECURITY SETTINGS
@@ -200,7 +200,8 @@ SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', default=True)
 SECURE_HSTS_SECONDS = env('SECURE_HSTS_SECONDS')
 SECURE_HSTS_PRELOAD = env.bool('SECURE_HSTS_PRELOAD', default=True)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('SECURE_HSTS_INCLUDE_SUBDOMAINS', default=True)
-SECURE_PROXY_SSL_HEADER = env('SECURE_PROXY_SSL_HEADER')
+# SECURE_PROXY_SSL_HEADER = env('SECURE_PROXY_SSL_HEADER')
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=True)
 SECURE_BROWSER_XSS_FILTER = env.bool('SECURE_BROWSER_XSS_FILTER', default=True)
 SECURE_CONTENT_TYPE_NOSNIFF = env.bool('SECURE_CONTENT_TYPE_NOSNIFF', default=True)
