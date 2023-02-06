@@ -184,6 +184,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 # # change to https://app.example.com in production settings
 CORS_ORIGIN_WHITELIST = [env('CORS_ORIGIN_WHITELIST')]
 CSRF_TRUSTED_ORIGINS = [env('CSRF_TRUSTED_ORIGINS')]
+
 # change the values to environment
 # SECURE_HSTS_SECONDS = 35  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
 # overall important security settings
