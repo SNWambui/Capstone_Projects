@@ -37,7 +37,7 @@ def iter_response(response, chunk_size=65536):
 
 def catchall_dev(request, upstream='http://localhost:3000'):
     '''Function to get the templates from the react path for development
-    settings instead of using URL temlate loader. Handles html, CSS and 
+    settings instead of using URL template loader. Handles html, CSS and 
     JS
     '''
     upstream_url = upstream + request.path
@@ -69,6 +69,7 @@ class FileView(APIView):
 
         # read list of dict into dict, if json, use read_json
         weather = DataFrame(file_obj)
+        print('THis is weather', weather)
 
         # clean up the data
         weather = weather.rename(columns={'Month Average': 'months', 'Temperature - (Celsius)': 'temp', 'Rainfall - (MM)': 'rain'})

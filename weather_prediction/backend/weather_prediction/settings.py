@@ -167,7 +167,7 @@ STATICFILES_STORAGE = (
 STATIC_ROOT = BACKEND_DIR / 'static'
 
 # important for production and handling wsgi
-# WHITENOISE_ROOT = FRONTEND_DIR / 'build' / 'root'
+WHITENOISE_ROOT = FRONTEND_DIR / 'build' / 'root'
 
 # REST_FRAMEWORK = {
 
@@ -185,7 +185,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
 # change the values to environment
-SECURE_HSTS_SECONDS = 35  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
+# SECURE_HSTS_SECONDS = 35  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
 # overall important security settings
 # ========================
 # SECURITY SETTINGS
