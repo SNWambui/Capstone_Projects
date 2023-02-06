@@ -29,7 +29,7 @@ export default function App() {
       console.log("Add City")
       return
     }
-      console.log("This is e", city.city)
+      // console.log("This is e", city.city)
 
       setCity(city)
       // note that city returns a dictionary and so need to query city.city to get the actual city name. 
