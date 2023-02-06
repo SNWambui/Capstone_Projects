@@ -92,7 +92,7 @@ const getForecast = () =>{
         
         })
           .catch(
-                error => {alert(error)})
+                error => {alert(error.response.data)})
 }
 
 // useEffect(() => {
