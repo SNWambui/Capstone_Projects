@@ -52,6 +52,7 @@ const getForecast = () =>{
         // let headers = { 'Authorization': `Token ${props.token}` };
         let url = settings.API_SERVER + '/api/predict/';
         let method = 'POST';
+        console.log("this is the data", csvData)
         let config = { method, url, data: csvData };
 
         //Axios predict API call
