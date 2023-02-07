@@ -1,4 +1,8 @@
-/* */
+/*
+Loads the csv file from the resources, prepares the data as a json, sends to the backend via post
+then receives the prediction of the ANN model of weather for 12 months and plots the temperature
+and rainfall prediction data. 
+*/
 
 // import csvFile from 'https://tinyurl.com/weather-data1'
 import csvFile from "./../kenya-climate-data-1991-2016-temp-degress-celcius.csv"
@@ -21,80 +25,152 @@ function Forecast() {
   // state to store chart data , years
   const [weatherData, setWeatherData] = useState({})
 
-  //get historical data
-  const getData = () =>{
-    if(!csvFile){
-      console.log("Add file")
-    }
-    Papa.parse(csvFile, {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      complete: function (results) {
-        const valuesArray = [];
-  
-        // Iterating data to get column name and their values
-        results.data.map((d) => {
-          // rowsArray.push(Object.keys(d));
-          return valuesArray.push(Object.values(d));
+  async function getData() {
+    return new Promise((resolve, reject) => {
+      Papa.parse(csvFile, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
+          resolve(results.data);
+            const valuesArray = [];
+             // Iterating data to get column name and their values
+            results.data.map((d) => {
+            // rowsArray.push(Object.keys(d));
+            return valuesArray.push(Object.values(d));
+          });
+          // Parsed Data Response in array format to pass to REsT API
+          setCsvData(results.data);
+        }
       });
-    
-        // Parsed Data Response in array format to pass to REsT API
-        setCsvData(results.data);
+    });
   }
-        });
-      }
+  
+
+  //get historical data
+  // const getData = () =>{
+  //   if(!csvFile){
+  //     console.log("Add file")
+  //   }
+  //   Papa.parse(csvFile, {
+  //     download: true,
+  //     header: true,
+  //     skipEmptyLines: true,
+  //     complete: function (results) {
+  //       const valuesArray = [];
+  
+  //       // Iterating data to get column name and their values
+  //       results.data.map((d) => {
+  //         // rowsArray.push(Object.keys(d));
+  //         return valuesArray.push(Object.values(d));
+  //     });
+    
+  //       // Parsed Data Response in array format to pass to REsT API
+  //       setCsvData(results.data);
+  // }
+  //       });
+  //     }
 
 // function to send data to the prediction REST API
-const getForecast = () =>{
-  getData()
-     //Axios variables required to call the prediction API
-        // let headers = { 'Authorization': `Token ${props.token}` };
-        let url = settings.API_SERVER + '/api/predict/';
-        let method = 'POST';
-        console.log("this is the data", csvData)
-        let config = { method, url, data: csvData };
+// const getForecast = () =>{
+//   getData()
+//      //Axios variables required to call the prediction API
+//         // let headers = { 'Authorization': `Token ${props.token}` };
+//         let url = settings.API_SERVER + '/api/predict/';
+//         let method = 'POST';
+//         console.log("this is the data", csvData)
+//         let config = { method, url, data: csvData };
 
-        //Axios predict API call
-        axios(config)
-        .then((res) => {
-          setForecast(res.data)
-          // get the raina and temperature predictions
-          let tempForecast =  Object.values(JSON.parse(res.data["data"]).temp_preds)
-          let rainForecast =  Object.values(JSON.parse(res.data["data"]).rain_preds);
+//         //Axios predict API call
+//         axios(config)
+//         .then((res) => {
+//           setForecast(res.data)
+//           // get the raina and temperature predictions
+//           let tempForecast =  Object.values(JSON.parse(res.data["data"]).temp_preds)
+//           let rainForecast =  Object.values(JSON.parse(res.data["data"]).rain_preds);
 
-          // get string timestamp
-          let timeStamp = Object.keys(JSON.parse(res.data["data"]).temp_preds);
-          let years = [];
+//           // get string timestamp
+//           let timeStamp = Object.keys(JSON.parse(res.data["data"]).temp_preds);
+//           let years = [];
           
-          for(let i=0; i<timeStamp.length; i++){
-            var date = new Date(parseInt(timeStamp[i]))
-            years.push((date.getFullYear()+1)+"-"+(date.getMonth()+1));
-          } 
+//           for(let i=0; i<timeStamp.length; i++){
+//             var date = new Date(parseInt(timeStamp[i]))
+//             years.push((date.getFullYear()+1)+"-"+(date.getMonth()+1));
+//           } 
 
-          // variable to store the weather data
-        const newWeather = {
-          labels:  years,
-          datasets: [{
-            label: "temperature",
-            data: tempForecast,
-            borderColor: 'rgb(255, 99, 132)',
-          },
-          {
-            label: "Rainfall",
-            data: rainForecast,
-          }],
-          borderWidth: 2,
-        }
-        // set the temperature data
-        setWeatherData(oldWeather => ({...oldWeather, ...newWeather}))
+//           // variable to store the weather data
+//         const newWeather = {
+//           labels:  years,
+//           datasets: [{
+//             label: "temperature",
+//             data: tempForecast,
+//             borderColor: 'rgb(255, 99, 132)',
+//           },
+//           {
+//             label: "Rainfall",
+//             data: rainForecast,
+//           }],
+//           borderWidth: 2,
+//         }
+//         // set the temperature data
+//         setWeatherData(oldWeather => ({...oldWeather, ...newWeather}))
           
         
-        })
-          .catch(
-                error => {alert(error.response.data)})
-}
+//         })
+//           .catch(
+//                 error => {alert(error.response.data)})
+// }
+async function getForecast() {
+  try {
+    const csvData = await getData();
+    setCsvData(csvData);
 
+  //Axios variables required to call the prediction API
+    // let headers = { 'Authorization': `Token ${props.token}` };
+    let url = settings.API_SERVER + '/api/predict/';
+    let method = 'POST';
+    console.log("this is the data", csvData)
+    let config = { method, url, data: csvData };
+
+    //Axios predict API call
+    axios(config)
+    .then((res) => {
+      setForecast(res.data)
+      // get the raina and temperature predictions
+      let tempForecast =  Object.values(JSON.parse(res.data["data"]).temp_preds)
+      let rainForecast =  Object.values(JSON.parse(res.data["data"]).rain_preds);
+
+      // get string timestamp
+      let timeStamp = Object.keys(JSON.parse(res.data["data"]).temp_preds);
+      let years = [];
+      
+      for(let i=0; i<timeStamp.length; i++){
+        var date = new Date(parseInt(timeStamp[i]))
+        years.push((date.getFullYear()+1)+"-"+(date.getMonth()+1));
+      } 
+
+      // variable to store the weather data
+    const newWeather = {
+      labels:  years,
+      datasets: [{
+        label: "temperature",
+        data: tempForecast,
+        borderColor: 'rgb(255, 99, 132)',
+      },
+      {
+        label: "Rainfall",
+        data: rainForecast,
+      }],
+      borderWidth: 2,
+    }
+    // set the temperature data
+    setWeatherData(oldWeather => ({...oldWeather, ...newWeather}))
+    
+  }).catch 
+    (error => {console.error(error)});
+} catch (error) {
+  console.error(error);
+}}
 // useEffect(() => {
 //   getForecast();
 // }, [])
@@ -106,8 +182,6 @@ const getForecast = () =>{
 //     getForecast()
 //   }
 // }
-
-// console.log("This is forecast",csvData)
 
 
   return (
@@ -133,7 +207,6 @@ const getForecast = () =>{
       : <div></div>}
    
       </div>
-
     
   )
 }
