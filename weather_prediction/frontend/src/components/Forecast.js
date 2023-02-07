@@ -11,8 +11,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import * as settings from '../settings';
 import {Line} from "react-chartjs-2"
-// import city from '../App';
-// import App from '../App';
 
 function Forecast() {
 
@@ -25,6 +23,8 @@ function Forecast() {
   // state to store chart data , years
   const [weatherData, setWeatherData] = useState({})
 
+  // function to get historical data from csv
+  // important to use async await and promise to ensure user gets data on first click
   async function getData() {
     return new Promise((resolve, reject) => {
       Papa.parse(csvFile, {
@@ -46,87 +46,14 @@ function Forecast() {
     });
   }
   
-
-  //get historical data
-  // const getData = () =>{
-  //   if(!csvFile){
-  //     console.log("Add file")
-  //   }
-  //   Papa.parse(csvFile, {
-  //     download: true,
-  //     header: true,
-  //     skipEmptyLines: true,
-  //     complete: function (results) {
-  //       const valuesArray = [];
-  
-  //       // Iterating data to get column name and their values
-  //       results.data.map((d) => {
-  //         // rowsArray.push(Object.keys(d));
-  //         return valuesArray.push(Object.values(d));
-  //     });
-    
-  //       // Parsed Data Response in array format to pass to REsT API
-  //       setCsvData(results.data);
-  // }
-  //       });
-  //     }
-
-// function to send data to the prediction REST API
-// const getForecast = () =>{
-//   getData()
-//      //Axios variables required to call the prediction API
-//         // let headers = { 'Authorization': `Token ${props.token}` };
-//         let url = settings.API_SERVER + '/api/predict/';
-//         let method = 'POST';
-//         console.log("this is the data", csvData)
-//         let config = { method, url, data: csvData };
-
-//         //Axios predict API call
-//         axios(config)
-//         .then((res) => {
-//           setForecast(res.data)
-//           // get the raina and temperature predictions
-//           let tempForecast =  Object.values(JSON.parse(res.data["data"]).temp_preds)
-//           let rainForecast =  Object.values(JSON.parse(res.data["data"]).rain_preds);
-
-//           // get string timestamp
-//           let timeStamp = Object.keys(JSON.parse(res.data["data"]).temp_preds);
-//           let years = [];
-          
-//           for(let i=0; i<timeStamp.length; i++){
-//             var date = new Date(parseInt(timeStamp[i]))
-//             years.push((date.getFullYear()+1)+"-"+(date.getMonth()+1));
-//           } 
-
-//           // variable to store the weather data
-//         const newWeather = {
-//           labels:  years,
-//           datasets: [{
-//             label: "temperature",
-//             data: tempForecast,
-//             borderColor: 'rgb(255, 99, 132)',
-//           },
-//           {
-//             label: "Rainfall",
-//             data: rainForecast,
-//           }],
-//           borderWidth: 2,
-//         }
-//         // set the temperature data
-//         setWeatherData(oldWeather => ({...oldWeather, ...newWeather}))
-          
-        
-//         })
-//           .catch(
-//                 error => {alert(error.response.data)})
-// }
+// function to get predictions from model fed csv data above
+// must be assynchronouse to allow sending csv data and getting post data for user
 async function getForecast() {
   try {
     const csvData = await getData();
     setCsvData(csvData);
 
   //Axios variables required to call the prediction API
-    // let headers = { 'Authorization': `Token ${props.token}` };
     let url = settings.API_SERVER + '/api/predict/';
     let method = 'POST';
     console.log("this is the data", csvData)
@@ -171,25 +98,10 @@ async function getForecast() {
 } catch (error) {
   console.error(error);
 }}
-// useEffect(() => {
-//   getForecast();
-// }, [])
-// const handleClick = () =>{
-//   if(!csvFile){
-//     console.log("No data")
-//   }
-//   else{
-//     getForecast()
-//   }
-// }
-
 
   return (
     <div>
         <button type="button" className='btn btn-block' onClick={getForecast}>Get 12 month Forecast</button>
-        {/* {console.log("This is forecast",JSON.parse(forecast['data']).temp)} */}
-        {/* {console.log("This is forecast length", Object.keys(weatherData).length)} */}
-       
     {Object.keys(weatherData).length > 1? 
     <Line data={weatherData}
      options={{
