@@ -1,7 +1,7 @@
 /*
 Component to implmenent the fetch request to get weather forecast from
 openweatherApi and that is store in weatherData state and passed to linechart
-for 5 day weather forcast
+for 5 day weather forcast 
 */
 
 import React, { useEffect, useState, useReducer } from "react";
