@@ -397,7 +397,7 @@ li:nth-child(7) {
   left: 60%;
 }
 
-h1,h3,h4, title, p,label {
+h1,h3,h4, title, p,label, span {
   font-family: sans-serif;
   text-align: center;
   margin: 10px;

@@ -2,6 +2,8 @@ import React from 'react'
 import './prediction.css'
 import { useState } from 'react'
 import axios from 'axios'
+import {MdInfo} from 'react-icons/md'
+import {IconButton, Tooltip} from '@mui/material'
 
 function Prediction() {
     // define the hooks for controlled input fields for prediction
@@ -33,7 +35,7 @@ function Prediction() {
         .then((res) => {
           const data = res.data.data
           console.log("this is data", data)
-          const msg = `Total Predicted Yield of Bean is ${data.prediction} Hectograms per Hectare`
+          const msg = `Total Predicted Yield of Bean is ${data.prediction} Kilograms per Hectare`
           setUserOutput(msg)
           reset()
         })
@@ -59,7 +61,9 @@ function Prediction() {
       <div className="glass__inputs">
       <form onSubmit={(e) => handleSubmit(e)} className="glass__form">
         <h3>Crop Conditions</h3>
+        <h4>The numbers in Brackets reflect the range for values.</h4><h4> Enter the minimum value if a condition doesn't apply</h4>
         <div className="glass__form__group">
+          <p>Drained Soil CO2 (65.0 - 80.0)</p>
           <input
             id="cropDrainedCarbonKtns"
             className="glass__form__input"
@@ -75,8 +79,14 @@ function Prediction() {
             value={cropDrainedCarbonKtns}
             onChange={(e) => setDrainedCarbon(e.target.value)}
           />
+           <Tooltip title="This is how much CO2 has been drained from the soil (you can use a soil testing kit to determine the value)">
+            <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
         <div className="glass__form__group">
+          <p>Drained Soil N20 (0.0250 - 0.0350)</p>
           <input
             id="cropDrainedNitrogenKtns"
             className="glass__form__input"
@@ -92,9 +102,15 @@ function Prediction() {
             value={cropDrainedNitrogenKtns}
             onChange={(e) => setDrainedNitrogen(e.target.value)}
           />
+           <Tooltip title="This is how much N20 has been drained from the soil (you can use a soil testing kit to determine the value)">
+            <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
 
         <div className="glass__form__group">
+          <p>Potassium Fertlizer in kg/ha (0 - 30)</p>
           <input
             id="potashKgha"
             className="glass__form__input"
@@ -110,10 +126,15 @@ function Prediction() {
             value={potashKgha}
             onChange={(e) => setPotassium(e.target.value)}
           />
+           <Tooltip title="This is how much potassium fertilizer you have used in the given piece of land in kg per hectare">
+            <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
 
-
         <div className="glass__form__group">
+          <p>Nitrogen Fertlizer in kg/ha (0 - 30)</p>
           <input
             id="nitrogenKgha"
             className="glass__form__input"
@@ -129,9 +150,15 @@ function Prediction() {
             value={nitrogenKgha}
             onChange={(e) => setNitrogen(e.target.value)}
           />
+           <Tooltip title="This is how much nitrogen fertilizer you have used in the given piece of land in kg per hectare">
+            <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
         
         <div className="glass__form__group">
+          <p>Phosphorus Fertlizer in kg/ha (0 - 30)</p>
           <input
             id="phosphateKgha"
             className="glass__form__input"
@@ -147,10 +174,16 @@ function Prediction() {
             value={phosphateKgha}
             onChange={(e) => setPhosphorus(e.target.value)}
           />
+           <Tooltip title="This is how much nitrogen fertilizer you have used in the given piece of land in kg per hectare">
+            <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
 
         
         <div className="glass__form__group">
+          <p>Average manure in kg (range: 100000 - 1000000)</p>
           <input
             id="manureNormalSoilKg"
             className="glass__form__input"
@@ -166,9 +199,15 @@ function Prediction() {
             value={manureNormalSoilKg}
             onChange={(e) => setManure(e.target.value)}
           />
+           <Tooltip title="This is how much manure you have used in the given piece of land in kg per hectare (this field is optional)">
+            <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
 
         <div className="glass__form__group">
+          <p>Annual Average Rain in mm (200 - 1500)</p>
           <input
             id="avgRainMm"
             className="glass__form__input"
@@ -184,9 +223,15 @@ function Prediction() {
             value={avgRainMm}
             onChange={(e) => setRain(e.target.value)}
           />
+          <Tooltip title="This is how much rain your city has received in a given year (visit this link to see)">
+            <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
 
         <div className="glass__form__group">
+          <p>Annual Temperature Avg C (15 - 35)</p>
           <input
             id="avgTempC"
             className="glass__form__input"
@@ -202,9 +247,15 @@ function Prediction() {
             value={avgTempC}
             onChange={(e) => setTemp(e.target.value)}
           />
+          <Tooltip title="This is the average temperature your city has had in a given year (visit this link to see)">
+            <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
 
         <div className="glass__form__group">
+          <p>Totals Pesticides in kg/ha per croparea (0.15 - 2.00)</p>
           <input
             id="pesticidesKgha"
             className="glass__form__input"
@@ -220,9 +271,15 @@ function Prediction() {
             value={pesticidesKgha}
             onChange={(e) => setPesticides(e.target.value)}
           />
+          <Tooltip title="This is the total pesticides you used on your per hectare">
+          <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
         <div>
-          <h4>{"Optional Fields if Known, Else Leave the Default Values"}</h4>
+          <h4>These Fields are optional and country-level</h4>
+          <h4>Please fill the values if you know, otherwise leave as is</h4>
         </div>
         <div className="glass__form__group">
           <p>Total Nitrogen Emissions in kt (100 - 300)</p>
@@ -241,9 +298,14 @@ function Prediction() {
             value={nitrogenEmissionsKtns}
             onChange={(e) => setNitrogenEmission(e.target.value)}
           />
+          <Tooltip title="This is the total nitrogen emissions from Kenya">
+            <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
         <div className="glass__form__group">
-        <p>Total Methane Emissions in kt (1500 - 5000)</p>
+          <p>Total Methane Emissions in kt (1500 - 5000)</p>
           <input
             id="methaneEmissionsKtns"
             className="glass__form__input"
@@ -259,6 +321,11 @@ function Prediction() {
             value={methaneEmissionsKtns}
             onChange={(e) => setMethaneEmissions(e.target.value)}
           />
+          <Tooltip title="This is the total methane emissions from Kenya">
+            <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
 
         <div className="glass__form__group">
@@ -278,6 +345,11 @@ function Prediction() {
             value={carbonEmissionsKtns}
             onChange={(e) => setCarbonEmissions(e.target.value)}
           />
+          <Tooltip title="This is the total carbon emissions from Kenya">
+            <IconButton>
+              <MdInfo/>
+            </IconButton>
+          </Tooltip>
         </div>
 
         <div className="glass__form__group">

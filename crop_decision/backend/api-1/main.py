@@ -165,10 +165,10 @@ async def get_predict(data: YieldNormal):
         data.pesticidesKgha
     ]]
     
-    # print("THis is sample", sample)
+    # divide prediction by 10 to convert to kilograms
     return {
         "data":{
-            'prediction': model.predict(sample).tolist()[0],
+            'prediction': model.predict(sample).tolist()[0]/10,
             'interpretation': "hehe"
         }
     }
