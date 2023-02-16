@@ -9,15 +9,6 @@ from fastapi.encoders import jsonable_encoder
 from hashing import Hash
 from urllib.request import urlopen
 
-# import pandas as pd
-# from sklearn.model_selection import train_test_split
-# from sklearn.pipeline import Pipeline
-# from sklearn.pipeline import make_pipeline
-# from sklearn.preprocessing import StandardScaler
-# from sklearn.ensemble import RandomForestRegressor    
-# from sklearn import *  
-# from ml_model import final_model1                                                                          
-
 
 # Initializing the fast API server
 app = FastAPI()
@@ -41,39 +32,12 @@ app.add_middleware(
 )
 
 # Loading up the trained model
-# model = pickle.load(open('/Users/stevedavieswambui/Desktop/Capstone_projects/Different_Apps/crop_decision/backend/api-1/model/bean_normal_model', 'rb'))
-model = pickle.load(open('bean_normal_model.pkl', 'rb'))
+# bean_normal_model = pickle.load(open('/Users/stevedavieswambui/Desktop/Capstone_projects/Different_Apps/crop_decision/backend/api-1/model/bean_normal_model', 'rb'))
+bean_normal_model = pickle.load(open('model/bean_normal_model.pkl', 'rb'))
 # import cloudpickle as cp
 # model = cp.load(urlopen("https://github.com/SNWambui/Capstone_Projects/blob/99ceecc42da3ffcad91bec2ec927fff047017ad6/crop_decision/backend/api/model/bean_normal_model.pkl"))
-# crops_lst = ["dryBeansHgha", "greenCoffeeHgha", "potatoesHgha", "riceHgha", "teaLeavesHgha"] 
-# soil_lst = ["manureLeachedSoilKg", "manureNormalSoilKg", "manureVolatiliseSoilKg"]
 
-# uploaded csv to google then converted url to tiny, read the csv
-# crop_data = pd.read_csv("https://tinyurl.com/crops-datas")
-
-# def final_model(data, crop, soil, soils, crops=crops_lst):
-#     lst_copy = soils.copy()
-#     lst_copy.remove(soil)
-#     # print("This is dcrop data",data)
-#     X = data.drop(crops+lst_copy, axis =1)
-#     y = data[crop]
-#     sc = StandardScaler()
-    
-    
-#     x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
-#     print("x_train", len(x_train.columns))
-#     # x_train = sc.fit_transform(x_train)
-#     # y_train = sc.fit_transform(y_train)
-#     regr = make_pipeline(StandardScaler(), RandomForestRegressor())
-#     # regr = RandomForestRegressor()
-#     regr.fit(x_train, y_train)
-
-#     return regr
-
-# models = final_model(crop_data, "dryBeansHgha","manureNormalSoilKg",soil_lst)
-# model = final_model1(crop_data, "dryBeansHgha","manureNormalSoilKg",soil_lst)
-
-# Defining the model input types for normal soil
+# Defining the model input types for bean normal soil
 class YieldNormal(BaseModel):
     cropDrainedCarbonKtns: float
     cropDrainedNitrogenKtns:  float
@@ -148,8 +112,8 @@ def read_root():
     return {"data": "Welcome to crop yield prediction system"}
 
 # Setting up the prediction route
-@app.post("/prediction/")
-async def get_predict(data: YieldNormal):
+@app.post("/prediction/bean/")
+async def get_bean_predict(data: YieldNormal):
     sample = [[
         data.cropDrainedCarbonKtns,
         data.cropDrainedNitrogenKtns,
@@ -168,8 +132,8 @@ async def get_predict(data: YieldNormal):
     # divide prediction by 10 to convert to kilograms
     return {
         "data":{
-            'prediction': model.predict(sample).tolist()[0]/10,
-            'interpretation': "hehe"
+            'prediction': bean_normal_model.predict(sample).tolist()[0]/10,
+            'interpretation': "This is the predicted yield of bean"
         }
     }
 

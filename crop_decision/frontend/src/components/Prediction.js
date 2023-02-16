@@ -4,6 +4,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import {MdInfo} from 'react-icons/md'
 import {IconButton, Tooltip} from '@mui/material'
+import Select from 'react-select'
 
 function Prediction() {
     // define the hooks for controlled input fields for prediction
@@ -22,20 +23,30 @@ function Prediction() {
 
     // hook to store the user message and predicted output
     const [userOutput, setUserOutput] = useState('')
+
+    // var to store list of crop options
+    const [selectCrop, setSelectCrop] = useState({label:'Bean', value:'bean'})
+    const optionsList = [
+      { label: 'Beans', value: 'beans' },
+      { label: 'Rice', value: 'rice' },
+      { label: 'Tea', value: 'tea' },
+      { label: 'Coffee', value: 'coffee' },
+      { label: 'Potato', value: 'potato' }
+    ];
   
     const handleSubmit = (e) => {
       e.preventDefault()
       const params = { 
-        avgRainMm,avgTempC,carbonEmissionsKtns,cropDrainedCarbonKtns,cropDrainedNitrogenKtns,
+        crop: selectCrop.value, avgRainMm,avgTempC,carbonEmissionsKtns,cropDrainedCarbonKtns,cropDrainedNitrogenKtns,
         manureNormalSoilKg,methaneEmissionsKtns,nitrogenEmissionsKtns,nitrogenKgha,pesticidesKgha,phosphateKgha,potashKgha
       }
       axios
-        //.post('http://localhost:8080/prediction', params)
-        .post('https://crop-decision.herokuapp.com/prediction', params) //updated to include hosted site
+        .post(`http://localhost:8000/prediction/${selectCrop.value}`, params)
+        // .post('https://crop-decision.herokuapp.com/prediction', params) //updated to include hosted site
         .then((res) => {
           const data = res.data.data
           console.log("this is data", data)
-          const msg = `Total Predicted Yield of Bean is ${data.prediction} Kilograms per Hectare`
+          const msg = `Total Predicted Yield of ${selectCrop.value} is ${data.prediction} Kilograms per Hectare`
           setUserOutput(msg)
           reset()
         })
@@ -43,6 +54,7 @@ function Prediction() {
     }
   
     const reset = () => {
+      setSelectCrop(null);
       setDrainedCarbon('')
       setDrainedNitrogen('')
       setPotassium('')
@@ -60,6 +72,13 @@ function Prediction() {
     <div className="glass">
       <div className="glass__inputs">
       <form onSubmit={(e) => handleSubmit(e)} className="glass__form">
+        <h3>Crops</h3>
+        {/* <Select options={optionsList} defaultValue={{ label: "Select Crop", value: 0 }}/> */}
+        <Select
+          options={optionsList}
+          value={selectCrop}
+          onChange={(choice) => setSelectCrop(choice)}
+        />
         <h3>Crop Conditions</h3>
         <h4>The numbers in Brackets reflect the range for values.</h4><h4> Enter the minimum value if a condition doesn't apply</h4>
         <div className="glass__form__group">
@@ -271,7 +290,7 @@ function Prediction() {
             value={pesticidesKgha}
             onChange={(e) => setPesticides(e.target.value)}
           />
-          <Tooltip title="This is the total pesticides you used on your per hectare">
+          <Tooltip title="This is the total pesticides you used on your farm per hectare">
           <IconButton>
               <MdInfo/>
             </IconButton>

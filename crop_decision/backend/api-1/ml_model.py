@@ -32,3 +32,5 @@ def final_model1(data, crop, soil, soils, crops=crops_lst):
     return regr
 
 model = final_model1(crop_data, "dryBeansHgha","manureNormalSoilKg",soil_lst)
+# models = final_model(crop_data, "dryBeansHgha","manureNormalSoilKg",soil_lst)
+# model = final_model1(crop_data, "dryBeansHgha","manureNormalSoilKg",soil_lst)
