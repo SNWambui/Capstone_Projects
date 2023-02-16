@@ -29,7 +29,6 @@ function Prediction() {
     const optionsList = [
       { label: 'Beans', value: 'beans' },
       { label: 'Rice', value: 'rice' },
-      { label: 'Tea', value: 'tea' },
       { label: 'Coffee', value: 'coffee' },
       { label: 'Potato', value: 'potato' }
     ];
@@ -41,12 +40,16 @@ function Prediction() {
         manureNormalSoilKg,methaneEmissionsKtns,nitrogenEmissionsKtns,nitrogenKgha,pesticidesKgha,phosphateKgha,potashKgha
       }
       axios
-        .post(`http://localhost:8000/prediction/${selectCrop.value}`, params)
-        // .post('https://crop-decision.herokuapp.com/prediction', params) //updated to include hosted site
+        // .post(`http://localhost:8000/prediction/${selectCrop.value}`, params)
+        .post('https://crop-decision.herokuapp.com/prediction', params) //updated to include hosted site
         .then((res) => {
           const data = res.data.data
-          console.log("this is data", data)
-          const msg = `Total Predicted Yield of ${selectCrop.value} is ${data.prediction} Kilograms per Hectare`
+          // console.log("this is data", data)
+          const msg = ` With ${cropDrainedCarbonKtns} drained soil CO2, ${cropDrainedNitrogenKtns} drained soil N2O,
+          ${potashKgha} kg/ha potassium fertilizer, ${nitrogenKgha} kg/ha nitrogen fertilizer,  
+          ${phosphateKgha} kg/ha phosphorus fertilizer, ${manureNormalSoilKg} kg/ha manure, ${avgRainMm} average annual rain, 
+          ${avgTempC} avg annual rainfall, and ${pesticidesKgha} kg/ha pesticides, 
+          Your Total Predicted Yield of ${selectCrop.label} is ${data.prediction} Kilograms per Hectare`
           setUserOutput(msg)
           reset()
         })
@@ -72,13 +75,24 @@ function Prediction() {
     <div className="glass">
       <div className="glass__inputs">
       <form onSubmit={(e) => handleSubmit(e)} className="glass__form">
-        <h3>Crops</h3>
-        {/* <Select options={optionsList} defaultValue={{ label: "Select Crop", value: 0 }}/> */}
-        <Select
-          options={optionsList}
-          value={selectCrop}
-          onChange={(choice) => setSelectCrop(choice)}
-        />
+        <h3>Crop Choice</h3>
+        <div style={{width: '90%', background: 'rgba(255, 255, 255, 0.5)'}}>
+          <Select
+            options={optionsList}
+            // value={selectCrop}
+            defaultValue={{ label: "Select Crop", value: selectCrop }}
+            onChange={(choice) => setSelectCrop(choice)}
+            theme={(theme) => ({
+              ...theme,
+              borderRadius: 0,
+              colors: {
+                ...theme.colors,
+                primary25: 'neutral140',
+                primary: 'black',
+              }, })}
+          />
+        </div>
+       
         <h3>Crop Conditions</h3>
         <h4>The numbers in Brackets reflect the range for values.</h4><h4> Enter the minimum value if a condition doesn't apply</h4>
         <div className="glass__form__group">

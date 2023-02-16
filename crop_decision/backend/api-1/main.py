@@ -32,10 +32,10 @@ app.add_middleware(
 )
 
 # Loading up the trained model
-# bean_normal_model = pickle.load(open('/Users/stevedavieswambui/Desktop/Capstone_projects/Different_Apps/crop_decision/backend/api-1/model/bean_normal_model', 'rb'))
 bean_normal_model = pickle.load(open('model/bean_normal_model.pkl', 'rb'))
-# import cloudpickle as cp
-# model = cp.load(urlopen("https://github.com/SNWambui/Capstone_Projects/blob/99ceecc42da3ffcad91bec2ec927fff047017ad6/crop_decision/backend/api/model/bean_normal_model.pkl"))
+rice_normal_model = pickle.load(open('model/rice_normal_model', 'rb'))
+potato_normal_model = pickle.load(open('model/potato_normal_model', 'rb'))
+coffee_normal_model = pickle.load(open('model/coffee_normal_model', 'rb'))
 
 # Defining the model input types for bean normal soil
 class YieldNormal(BaseModel):
@@ -111,7 +111,7 @@ class User(BaseModel):
 def read_root():
     return {"data": "Welcome to crop yield prediction system"}
 
-# Setting up the prediction route
+# Setting up the prediction route for bean
 @app.post("/prediction/bean/")
 async def get_bean_predict(data: YieldNormal):
     sample = [[
@@ -134,6 +134,84 @@ async def get_bean_predict(data: YieldNormal):
         "data":{
             'prediction': bean_normal_model.predict(sample).tolist()[0]/10,
             'interpretation': "This is the predicted yield of bean"
+        }
+    }
+
+# Setting up the prediction route for rice
+@app.post("/prediction/rice/")
+async def get_bean_predict(data: YieldNormal):
+    sample = [[
+        data.cropDrainedCarbonKtns,
+        data.cropDrainedNitrogenKtns,
+        data.potashKgha,
+        data.nitrogenEmissionsKtns,
+        data.nitrogenKgha,
+        data.phosphateKgha,
+        data.manureNormalSoilKg,
+        data.avgRainMm,
+        data.avgTempC,
+        data.carbonEmissionsKtns,
+        data.manureNormalSoilKg,
+        data.pesticidesKgha
+    ]]
+    
+    # divide prediction by 10 to convert to kilograms
+    return {
+        "data":{
+            'prediction': rice_normal_model.predict(sample).tolist()[0]/10,
+            'interpretation': "This is the predicted yield of rice"
+        }
+    }
+
+# Setting up the prediction route for potato
+@app.post("/prediction/potato/")
+async def get_bean_predict(data: YieldNormal):
+    sample = [[
+        data.cropDrainedCarbonKtns,
+        data.cropDrainedNitrogenKtns,
+        data.potashKgha,
+        data.nitrogenEmissionsKtns,
+        data.nitrogenKgha,
+        data.phosphateKgha,
+        data.manureNormalSoilKg,
+        data.avgRainMm,
+        data.avgTempC,
+        data.carbonEmissionsKtns,
+        data.manureNormalSoilKg,
+        data.pesticidesKgha
+    ]]
+    
+    # divide prediction by 10 to convert to kilograms
+    return {
+        "data":{
+            'prediction': potato_normal_model.predict(sample).tolist()[0]/10,
+            'interpretation': "This is the predicted yield of potato"
+        }
+    }
+
+# Setting up the prediction route for coffee
+@app.post("/prediction/coffee/")
+async def get_bean_predict(data: YieldNormal):
+    sample = [[
+        data.cropDrainedCarbonKtns,
+        data.cropDrainedNitrogenKtns,
+        data.potashKgha,
+        data.nitrogenEmissionsKtns,
+        data.nitrogenKgha,
+        data.phosphateKgha,
+        data.manureNormalSoilKg,
+        data.avgRainMm,
+        data.avgTempC,
+        data.carbonEmissionsKtns,
+        data.manureNormalSoilKg,
+        data.pesticidesKgha
+    ]]
+    
+    # divide prediction by 10 to convert to kilograms
+    return {
+        "data":{
+            'prediction': coffee_normal_model.predict(sample).tolist()[0]/10,
+            'interpretation': "This is the predicted yield of coffee"
         }
     }
 
