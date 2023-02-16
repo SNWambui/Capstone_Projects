@@ -41,7 +41,7 @@ function Prediction() {
       }
       axios
         // .post(`http://localhost:8000/prediction/${selectCrop.value}`, params)
-        .post('https://crop-decision.herokuapp.com/prediction', params) //updated to include hosted site
+        .post(`https://crop-decision.herokuapp.com/prediction/${selectCrop.value}`, params) //updated to include hosted site
         .then((res) => {
           const data = res.data.data
           // console.log("this is data", data)
