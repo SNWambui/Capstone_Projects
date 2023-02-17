@@ -38,7 +38,7 @@ DEBUG = env.bool('DEBUG', default=False)
 SECRET_KEY = env('SECRET_KEY')
 
 # change to specific hosts to avoid security issues
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["https://farmer-weather.herokuapp.com/"]
 
 
 # Application definition
