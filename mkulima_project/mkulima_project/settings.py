@@ -189,17 +189,27 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 #heroku hosting requirement
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
 
 #HTTPS settings
-# SECURE_CONTENT_TYPE_NOSNIFF = True
-# SECURE_HSTS_SECONDS = os.getenv('HSTS_SECONDS')
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-# SECURE_SSL_REDIRECT = True
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_PRELOAD = True
+# cookies
+CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE', default=True)
+CSRF_COOKIE_HTTPONLY = env.bool('CSRF_COOKIE_HTTPONLY', default=True)
+SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', default=True)
+
+# https requests and rerouting
+# min value of 2,592,000, for production but small value for testing
+SECURE_HSTS_SECONDS = env('SECURE_HSTS_SECONDS')
+SECURE_HSTS_PRELOAD = env.bool('SECURE_HSTS_PRELOAD', default=True)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('SECURE_HSTS_INCLUDE_SUBDOMAINS', default=True)
+# SECURE_PROXY_SSL_HEADER = env('SECURE_PROXY_SSL_HEADER')
+SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=True)
+SECURE_BROWSER_XSS_FILTER = env.bool('SECURE_BROWSER_XSS_FILTER', default=True)
+SECURE_CONTENT_TYPE_NOSNIFF = env.bool('SECURE_CONTENT_TYPE_NOSNIFF', default=True)
+
 
 # backend and configurantion settings for authentication
 AUTHENTICATION_BACKENDS = [
