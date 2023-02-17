@@ -27,10 +27,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
+# set the environment and DEBUG status
+env = environ.Env()
+DEBUG = env.bool('DEBUG', default=False)
 
 # sentry_sdk.init(
 #     dsn= env('dsn'),
@@ -51,9 +50,6 @@ env = environ.Env(
 # exception if SECRET_KEY not in os.environ
 SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = env('DEBUG')
-DEBUG = True
 
 #heroku app name given
 ALLOWED_HOSTS = ['*']
@@ -190,7 +186,6 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 #heroku hosting requirement
 django_heroku.settings(locals())
 
