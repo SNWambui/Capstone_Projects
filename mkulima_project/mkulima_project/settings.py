@@ -52,7 +52,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 
 #heroku app name given
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://mkulima-wetu.herokuapp.com']
 
 # Application definition
 
