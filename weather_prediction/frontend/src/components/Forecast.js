@@ -56,7 +56,7 @@ async function getForecast() {
   //Axios variables required to call the prediction API
     let url = settings.API_SERVER + '/api/predict/';
     let method = 'POST';
-    console.log("this is the data", csvData)
+    // console.log("this is the data", csvData)
     let config = { method, url, data: csvData };
 
     //Axios predict API call
@@ -90,7 +90,7 @@ async function getForecast() {
       }],
       borderWidth: 2,
     }
-    // set the temperature data
+    // set the weather data
     setWeatherData(oldWeather => ({...oldWeather, ...newWeather}))
     
   }).catch 
