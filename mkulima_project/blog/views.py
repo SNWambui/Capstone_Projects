@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import (
@@ -9,6 +9,7 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Post
+from .forms import CommentForm
 
 
 def home(request):
@@ -37,8 +38,27 @@ class UserPostListView(ListView):
         return Post.objects.filter(author=user).order_by('-date_posted')
 
 
+# class PostDetailView(DetailView):
+#     model = Post
 class PostDetailView(DetailView):
     model = Post
+    template_name = 'yourdetailpage.html'
+
+    def get_context_data(self, **kwargs):
+       context = super(PostDetailView, self).get_context_data(**kwargs)
+       context['commentform'] = CommentForm()
+       return context
+
+    def post(self, request, pk):
+       post = get_object_or_404(Post, pk=pk)
+       form = CommentForm(request.POST)
+
+       if form.is_valid():
+           obj  = form.save(commit=False)
+           obj.post = post
+           obj.author = self.request.user
+           obj.save()
+           return redirect('detail', post.pk)
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
