@@ -171,7 +171,6 @@ export const HistoricalData = ({props}) => {
       className='btn btn-block' 
       onClick={handleClick}>Get Historical Weather
     </button>
-   
     {chart && (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ flex: 4 }}>
@@ -197,7 +196,7 @@ export const HistoricalData = ({props}) => {
             </div>
           </div>
         </div>
-    )};
+    )}
     
     {/* {filterYear?<Line data={weatherData}/> : <div></div>}} */}
     {/* {weatherData ? <Line data={weatherData}/> : <div></div>} */}
