@@ -113,13 +113,16 @@ export const HistoricalData = ({props}) => {
         const newWeather = {
           labels:  label,
           datasets: [{
-            label: "temperature",
+            label: "Temperature",
             data: temperature,
-            borderColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgba(255, 0, 0, 1)', // set border color
+            backgroundColor: 'rgb(255, 99, 132)', // set background color
           },
           {
             label: "Rainfall",
             data: rainfall,
+            backgroundColor: 'rgba(135,206,235,1)', 
+            borderColor: 'rgba(135,206,235,1)',
           }],
           borderWidth: 2,
         }
@@ -154,29 +157,53 @@ export const HistoricalData = ({props}) => {
   // useEffect(() => {
   //   getHistory();
   // }, [])
-
+  
   return(
     <div>
-      <Select options={optionsList} defaultValue={{ label: "Select Year For History", value: 0 }} onChange = {(choice) => {
-      setFilterYear(choice)
+      <Select
+        options={optionsList} 
+        defaultValue={{ label: "Select Year For History", value: 0 }} 
+        onChange = {(choice) => {
+        setFilterYear(choice)
       }}/>
-    <button type="button" className='btn btn-block' onClick={handleClick}>Get Historical Weather</button>
+    <button 
+      type="button" 
+      className='btn btn-block' 
+      onClick={handleClick}>Get Historical Weather
+    </button>
+   
+    {chart && (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ flex: 4 }}>
+          <Line data={weatherData}
+            options={{
+            plugins: {
+                title: {
+                    display: true,
+                    align: 'center',
+                    text: `Historical Weather For ${Object.values(filterYear)[0]}`,
+                    fontSize: 20,
+                }
+            },
+            maintainAspectRatio: true,
+            duration: 2000
+            }} />
+            </div>
+          <div style={{ flex: 1, textAlign: 'left', fontSize:15  }}>
+            The historical data only ranges from 1991 to 2016. More recent weather data
+            will be included upon availability. 
+            <div>
+              Similar to above, if you want to zoom in on temperature, click on 'rainfall' to hide it
+            </div>
+          </div>
+        </div>
+    )};
     
-    {chart ? <Line data={weatherData}
-     options={{
-      plugins: {
-          title: {
-              display: true,
-              align: 'center',
-              text: `Historical Weather For ${Object.values(filterYear)[0]}`,
-              fontSize: 20,
-          }
-      },
-      maintainAspectRatio: true,
-      duration: 2000
-      }} /> : <div></div>}
     {/* {filterYear?<Line data={weatherData}/> : <div></div>}} */}
     {/* {weatherData ? <Line data={weatherData}/> : <div></div>} */}
   </div>
   )
+  
+  
+
 }

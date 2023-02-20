@@ -3,18 +3,20 @@ import React from 'react';
 // import { useLocation } from 'react-router-dom'
 // import Button from './Button'
 
-const Header = ({ title }) => {
+const Header = ({ title,text }) => {
   return (
-    <header className='header'
-    style={{ backgroundImage: "url('https://mdbootstrap.com/img/new/slides/041.webp')", height: '100px' }}
+    <header className='App-header'
+    style={{ backgroundImage: "url('https://mdbootstrap.com/img/new/slides/041.webp')", height: 'auto' }}
     >
-      <h1>{title}</h1>
+      <h1 className='App-h1'>{title}</h1>
+      <h3 className='App-h3'>{text}</h3>
     </header>
   )
 }
 
 Header.defaultProps = {
   title: 'Farmer Weather Hub',
+  text: "A Hub to get 5 day weather forecast, look at historical weather patterns and get 12 month forecast"
 }
 
 

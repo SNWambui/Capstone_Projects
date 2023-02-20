@@ -76,14 +76,8 @@ function WeekForecast() {
         datasets: [{
           label: "Temperature",
           data: temperature,
-          borderColor:  "#ffbb11",
-          backgroundColor: [
-            "#ffbb11",
-            "#ecf0f1",
-            "#50AF95",
-            "#f3ba2f",
-            "#2a71d0"
-          ],
+          borderColor: 'rgba(255, 0, 0, 1)', // set border color
+          backgroundColor: 'rgb(255, 99, 132)', // set background color
         },
         {
           label: "Humidity",
@@ -108,11 +102,25 @@ function WeekForecast() {
 
     return (
         <div>
+            <div style={{fontSize: 13}}>
+            </div>
             <AddCity onAdd={getWeather}/>
-            {city ? 
-            <div style={{ width: 700 }}>
-                <LineChart chartData={weatherData} city ={city.city}/>
-            </div> : <div></div>
+            {city &&(
+             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}> 
+                <div style={{ flex: 1, textAlign: 'left', fontSize:15 }}>
+                  You can hover on the chart to see the exact values for each day. 
+                  
+                  If you want to zoom in on Humidity, click on 'Temperature' to hide it.
+                </div>
+                <div  style={{ flex: 4 }}>
+                <LineChart 
+                  chartData={weatherData} 
+                  city ={city.city}
+                  />
+                </div>
+              </div>
+            )
+           
             }
         </div>
   )

@@ -6,12 +6,9 @@ import {Chart as ChartJS} from "chart.js/auto";
 
 // define chartData as props then add it to App.js
 const LineChart = ({chartData, city}) =>{
-    // c
 
     // if(chartData !== props.chartData)
     // if(chartData){
-    console.log(chartData)
-    // return <div>"cow"</div>
     return <Line data={chartData} 
     options={{
         plugins: {

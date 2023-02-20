@@ -1,5 +1,11 @@
 .App {
     text-align: center;
+    width:auto;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
   }
   
   .App-logo {
@@ -15,7 +21,7 @@
   
   .App-header {
     background-color: #1cd632;
-    min-height: 100vh;
+    min-height: 30vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,7 +29,26 @@
     font-size: calc(10px + 2vmin);
     color: rgb(29, 238, 161);
     background-image: url('https://mdbootstrap.com/img/new/slides/041.webp');
+    max-width: max-content;
+    object-fit: cover;
+    width: 80%;
 
+  }
+  .App-h1, .App-h3{
+    font-family: sans-serif;
+    text-align: center;
+    margin: 5px;
+    color: rgb(249, 249, 249);
+  }
+
+  .App-chart-container{
+    width: 70%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    min-width: 40%;
   }
   
   .App-link {

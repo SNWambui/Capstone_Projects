@@ -14,13 +14,13 @@ export default function App() {
     <div className="App">
       {/* <NavBar/> */}
       <Header/>
-      <div style={{ width: 700 }}>
+      <div className='App-chart-container'>
        <WeekForecast/>
        </div>
-       <div style={{ width: 700 }}>
+       <div className='App-chart-container'>
        <HistoricalData/>
        </div>
-       <div style={{ width: 700 }}>
+       <div className='App-chart-container'>
        <Forecast/>
        </div>
 

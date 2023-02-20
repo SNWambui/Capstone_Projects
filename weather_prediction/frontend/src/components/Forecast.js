@@ -79,18 +79,21 @@ async function getForecast() {
         var date = new Date(parseInt(timeStamp[i]))
         years.push((date.getFullYear()+1)+"-"+(date.getMonth()+1));
       } 
-      
+
     // variable to store the weather data
     const newWeather = {
       labels:  years,
       datasets: [{
-        label: "temperature",
+        label: "Temperature",
         data: tempForecast,
-        borderColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgba(255, 0, 0, 1)', // set border color
+        backgroundColor: 'rgb(255, 99, 132)', // set background color
       },
       {
         label: "Rainfall",
         data: rainForecast,
+        backgroundColor: 'rgba(135,206,235,1)', 
+        borderColor: 'rgba(135,206,235,1)',
       }],
       borderWidth: 2,
     }
@@ -103,34 +106,43 @@ async function getForecast() {
   console.error(error);
 }}
 
+
   return (
     <div>
-        <button type="button" className='btn btn-block' onClick={() => {
-          getForecast()
-      alert("Please wait up to 20 seconds for the 12 month Forecast")
-      
+      <button type="button" className='btn btn-block' onClick={() => {
+        getForecast()
+        setLoading(true)
       }}>Get 12 month Forecast</button>
-      <div>Please wait up to 20 seconds for the 12 month Forecast </div>
-        
-    {Object.keys(weatherData).length > 1? 
-    <Line data={weatherData}
-     options={{
-      plugins: {
-          title: {
-              display: true,
-              align: 'center',
-              text: '12 Month Weather Forecast For 2017',
-              fontSize: 20,
-          }
-      }
-      // maintainAspectRatio: true,
-      // duration: 2000
-      }} />
-      : <div></div>}
-   
-      </div>
-    
-  )
+      {loading && <div style={{fontSize:15}}>Please wait up to 20 seconds for the 12 month Forecast</div>}
+      {Object.keys(weatherData).length > 1 && (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ flex: 1, textAlign: 'left', fontSize:15 }}>
+            The chart only shows the prediction for 2017 because it is the only year
+            that is not present in the data. The prediction will be updated with more data.
+            </div>
+          <div style={{ flex: 4 }}>
+            <Line
+              data={weatherData}
+              options={{
+                plugins: {
+                  title: {
+                    display: true,
+                    align: 'center',
+                    text: '12 Month Weather Forecast For 2017',
+                    fontSize: 20,
+                  }
+                },
+                maintainAspectRatio: true,
+                duration: 2000
+              }}
+            />
+          </div>
+          
+        </div>
+      )}
+    </div>
+  );
+  
 }
 
 export default Forecast
