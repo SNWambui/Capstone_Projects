@@ -23,6 +23,9 @@ function Forecast() {
   // state to store chart data , years
   const [weatherData, setWeatherData] = useState({})
 
+  // state to store whether the model is loading or not
+  const [loading, setLoading] = useState(false);
+
   // function to get historical data from csv
   // important to use async await and promise to ensure user gets data on first click
   async function getData() {
@@ -49,6 +52,7 @@ function Forecast() {
 // function to get predictions from model fed csv data above
 // must be assynchronouse to allow sending csv data and getting post data for user
 async function getForecast() {
+
   try {
     const csvData = await getData();
     setCsvData(csvData);
@@ -75,8 +79,8 @@ async function getForecast() {
         var date = new Date(parseInt(timeStamp[i]))
         years.push((date.getFullYear()+1)+"-"+(date.getMonth()+1));
       } 
-
-      // variable to store the weather data
+      
+    // variable to store the weather data
     const newWeather = {
       labels:  years,
       datasets: [{
@@ -101,7 +105,13 @@ async function getForecast() {
 
   return (
     <div>
-        <button type="button" className='btn btn-block' onClick={getForecast}>Get 12 month Forecast</button>
+        <button type="button" className='btn btn-block' onClick={() => {
+          getForecast()
+      alert("Please wait up to 20 seconds for the 12 month Forecast")
+      
+      }}>Get 12 month Forecast</button>
+      <div>Please wait up to 20 seconds for the 12 month Forecast </div>
+        
     {Object.keys(weatherData).length > 1? 
     <Line data={weatherData}
      options={{
