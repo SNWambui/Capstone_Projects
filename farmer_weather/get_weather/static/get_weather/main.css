@@ -19,6 +19,20 @@
             transform: rotate(359deg);
   }
 }
+body {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 250vh 100vh;
+  background-color: rgba(217, 235, 225, 0.6)
+
+  
+}
 
 /*! minireset.css v0.0.2 | MIT License | github.com/jgthms/minireset.css */
 html,
@@ -108,7 +122,7 @@ th {
 }
 
 html {
-  background-color: white;
+  background-color: rgba(217, 235, 225, 0.6);
   font-size: 16px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -10113,6 +10127,7 @@ label.panel-block:hover {
 
 .hero.is-primary {
   background-color: #00d1b2;
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/81/Nairobi_economic_capital_of_africa.jpg');
   color: #fff;
 }
 

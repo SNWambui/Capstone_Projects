@@ -11,6 +11,22 @@ from folium import Map, LayerControl, Marker
 from folium.raster_layers import TileLayer
 from folium.plugins import HeatMap
 
+import os
+import environ
+
+
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+# set the environment and DEBUG status
+env = environ.Env()
+api_key = env('WEATHER_API_KEY')
+# print("This is api_keu", api_key)
+
 def show_weather_map(city_coords, city_temp):
     # starting center of the map
     center = city_coords
@@ -31,7 +47,7 @@ def show_weather_map(city_coords, city_temp):
     # the layer is gotten by making a call to the openweather tile API
     temperature = TileLayer(
         name='Temperature',
-        tiles = "https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=bf29541ace39853f30704cee92d7267e",
+        tiles = "https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid={api_key}",
         min_zoom=1,
         max_zoom=18,
         max_native_zoom=16,
@@ -43,7 +59,7 @@ def show_weather_map(city_coords, city_temp):
     # add a precipitation layer that a user can choose to overlay on map or not
     precipitation = TileLayer(
         name='Rain',
-        tiles = "https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=bf29541ace39853f30704cee92d7267e",
+        tiles = "https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid={api_key}",
         min_zoom=1,
         max_zoom=18,
         max_native_zoom=16,
@@ -77,7 +93,8 @@ def index(request):
     Returns: weather information about the given city the user entered
     '''
 
-    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=bf29541ace39853f30704cee92d7267e'
+    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={api_key}'
+
 
     err_msg = ''
     message = ''
@@ -99,9 +116,9 @@ def index(request):
                 if req['cod'] == 200:
                     form.save()
                 else:
-                    err_msg = 'City does not exist in the world!'
+                    err_msg = 'Hmm...it seems like the city you entered is invalid, Please check your entry and try again'
             else:
-                err_msg = 'City already exists in the database!'
+                err_msg = 'This city already exists. Please enter a new city'
 
        
         # categorize the message class to return to user for html rendering
@@ -109,7 +126,7 @@ def index(request):
             message = err_msg
             message_class = 'is-danger'
         else:
-            message = 'City added successfully!'
+            message = 'The city has been added successfully!'
             message_class = 'is-success'
         
          # redirect to the index to prevent form from resubmitting
@@ -125,12 +142,13 @@ def index(request):
     weather_data = []
 
     # loop through all the cities from database that user added and add relevant wweather information to list
-    for city in cities:
+    # reverse the list so that the last city to be added is shown first.
+    for city in reversed(cities):
 
         req = requests.get(url.format(city)).json()
         # need to inspect the structure of the returned json to determine where each value lies
         city_weather = {
-            'city' : city.name,
+            'city' : city.name.title(),
             'temperature' : req['main']['temp'],
             'description' : req['weather'][0]['description'],
             'icon' : req['weather'][0]['icon'],

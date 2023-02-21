@@ -7,6 +7,10 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        self.name = self.name.lower() # Convert city name to lowercase
+        super().save(*args, **kwargs)
 
     class Meta:
         # important so that we can call this in other files eg views.py
