@@ -168,6 +168,7 @@ def index(request):
         'form' : form,
         'message' : message,
         'message_class' : message_class,
+        'weather_lenght': len(weather_data),
         # 'city_map': show_weather_map(city_weather['coordinates']),
     }
 
@@ -176,7 +177,7 @@ def index(request):
 
 def delete_city(request, city_name):
     '''Function to delete a city name from the database and return the user to the home page'''
-    City.objects.get(name=city_name).delete()
+    City.objects.get(name=city_name.lower()).delete()
     
     return redirect('home')
 
