@@ -177,7 +177,8 @@ def index(request):
 
 def delete_city(request, city_name):
     '''Function to delete a city name from the database and return the user to the home page'''
-    City.objects.get(name=city_name.lower()).delete()
+    city_name = city_name.lower()
+    City.objects.get(name=city_name).delete()
     
     return redirect('home')
 
