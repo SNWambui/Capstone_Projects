@@ -110,7 +110,7 @@ def index(request):
             
             # if city has not been added to the database, the call the api and get city info otherwise error message
             if existing_city_count == 0:
-                req = requests.get(url.format(new_city)).json()
+                req = requests.get(url.format(new_city, api_key)).json()
                 
                 # check if the city is a valid city given the json object returned above
                 if req['cod'] == 200:
@@ -146,7 +146,7 @@ def index(request):
     for city in reversed(cities):
 
         req = requests.get(url.format(city, api_key)).json()
-        if req == 500:
+        if req == 200:
             # need to inspect the structure of the returned json to determine where each value lies
             city_weather = {
                 'city' : city.name.title(),
@@ -159,11 +159,12 @@ def index(request):
 
             # add the map object to list of eeather data: use coordinates and temperature from above
             city_weather['show_map'] = show_weather_map(city_weather['coordinates'], city_weather['temperature'])
-        
+            
             weather_data.append(city_weather)
         else:
             # city_weather = {'city')}
-            weather_data.append(["Please wait For API to load"])
+            weather_data.append("Please wait For API to load")
+            
     # determine what will be displayed to the user: weather info, the empty form, the message and class
     context = {
         'weather_data' : weather_data, 
