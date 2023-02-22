@@ -47,7 +47,7 @@ def show_weather_map(city_coords, city_temp):
     # the layer is gotten by making a call to the openweather tile API
     temperature = TileLayer(
         name='Temperature',
-        tiles = "https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid={api_key}",
+        tiles = "https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid={}".format(api_key),
         min_zoom=1,
         max_zoom=18,
         max_native_zoom=16,
@@ -59,7 +59,7 @@ def show_weather_map(city_coords, city_temp):
     # add a precipitation layer that a user can choose to overlay on map or not
     precipitation = TileLayer(
         name='Rain',
-        tiles = "https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid={api_key}",
+        tiles = "https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid={}".format(api_key),
         min_zoom=1,
         max_zoom=18,
         max_native_zoom=16,
@@ -93,7 +93,7 @@ def index(request):
     Returns: weather information about the given city the user entered
     '''
 
-    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={api_key}'
+    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={}'
 
 
     err_msg = ''
@@ -145,22 +145,25 @@ def index(request):
     # reverse the list so that the last city to be added is shown first.
     for city in reversed(cities):
 
-        req = requests.get(url.format(city)).json()
-        # need to inspect the structure of the returned json to determine where each value lies
-        city_weather = {
-            'city' : city.name.title(),
-            'temperature' : req['main']['temp'],
-            'description' : req['weather'][0]['description'],
-            'icon' : req['weather'][0]['icon'],
-            'wind_speed' : req['wind']['speed'],
-            'coordinates': (req['coord']['lat'], req['coord']['lon']),
-        }
+        req = requests.get(url.format(city, api_key)).json()
+        if req == 500:
+            # need to inspect the structure of the returned json to determine where each value lies
+            city_weather = {
+                'city' : city.name.title(),
+                'temperature' : req['main']['temp'],
+                'description' : req['weather'][0]['description'],
+                'icon' : req['weather'][0]['icon'],
+                'wind_speed' : req['wind']['speed'],
+                'coordinates': (req['coord']['lat'], req['coord']['lon']),
+            }
 
-        # add the map object to list of eeather data: use coordinates and temperature from above
-        city_weather['show_map'] = show_weather_map(city_weather['coordinates'], city_weather['temperature'])
-       
-        weather_data.append(city_weather)
-
+            # add the map object to list of eeather data: use coordinates and temperature from above
+            city_weather['show_map'] = show_weather_map(city_weather['coordinates'], city_weather['temperature'])
+        
+            weather_data.append(city_weather)
+        else:
+            # city_weather = {'city')}
+            weather_data.append(["Please wait For API to load"])
     # determine what will be displayed to the user: weather info, the empty form, the message and class
     context = {
         'weather_data' : weather_data, 
