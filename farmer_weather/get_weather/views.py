@@ -14,8 +14,6 @@ from folium.plugins import HeatMap
 import os
 import environ
 
-
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +23,6 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # set the environment and DEBUG status
 env = environ.Env()
 api_key = env('WEATHER_API_KEY')
-# print("This is api_keu", api_key)
 
 def show_weather_map(city_coords, city_temp):
     # starting center of the map
@@ -47,7 +44,7 @@ def show_weather_map(city_coords, city_temp):
     # the layer is gotten by making a call to the openweather tile API
     temperature = TileLayer(
         name='Temperature',
-        tiles = "https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid={}".format(api_key),
+        tiles = f"https://tile.openweathermap.org/map/temp_new/{{z}}/{{x}}/{{y}}.png?appid={api_key}",
         min_zoom=1,
         max_zoom=18,
         max_native_zoom=16,
@@ -59,7 +56,7 @@ def show_weather_map(city_coords, city_temp):
     # add a precipitation layer that a user can choose to overlay on map or not
     precipitation = TileLayer(
         name='Rain',
-        tiles = "https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid={}".format(api_key),
+        tiles = f"https://tile.openweathermap.org/map/temp_new/{{z}}/{{x}}/{{y}}.png?appid={api_key}",
         min_zoom=1,
         max_zoom=18,
         max_native_zoom=16,
@@ -145,8 +142,8 @@ def index(request):
     # reverse the list so that the last city to be added is shown first.
     for city in reversed(cities):
 
-        req = requests.get(url.format(city, api_key)).json()
-        if req == 200:
+        req = requests.get(url.format(city, api_key)).json() 
+        if req['cod'] == 200:
             # need to inspect the structure of the returned json to determine where each value lies
             city_weather = {
                 'city' : city.name.title(),
