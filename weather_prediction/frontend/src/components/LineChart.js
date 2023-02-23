@@ -9,6 +9,10 @@ const LineChart = ({chartData, city}) =>{
 
     // if(chartData !== props.chartData)
     // if(chartData){
+    // function to convert string to title case
+    function titleCase(str) {
+        return str.replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() });
+    }
     return <Line data={chartData} 
     options={{
         plugins: {

@@ -113,13 +113,13 @@ export const HistoricalData = ({props}) => {
         const newWeather = {
           labels:  label,
           datasets: [{
-            label: "Temperature",
+            label: "Temperature (C)",
             data: temperature,
             borderColor: 'rgba(255, 0, 0, 1)', // set border color
             backgroundColor: 'rgb(255, 99, 132)', // set background color
           },
           {
-            label: "Rainfall",
+            label: "Rainfall (mm)",
             data: rainfall,
             backgroundColor: 'rgba(135,206,235,1)', 
             borderColor: 'rgba(135,206,235,1)',

@@ -11,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import * as settings from '../settings';
 import {Line} from "react-chartjs-2"
+// import { setLabels } from "react-chartjs-2/dist/utils";
 
 function Forecast() {
 
@@ -84,13 +85,13 @@ async function getForecast() {
     const newWeather = {
       labels:  years,
       datasets: [{
-        label: "Temperature",
+        label: "Temperature (C)",
         data: tempForecast,
         borderColor: 'rgba(255, 0, 0, 1)', // set border color
         backgroundColor: 'rgb(255, 99, 132)', // set background color
       },
       {
-        label: "Rainfall",
+        label: "Rainfall (mm)",
         data: rainForecast,
         backgroundColor: 'rgba(135,206,235,1)', 
         borderColor: 'rgba(135,206,235,1)',
@@ -131,6 +132,7 @@ async function getForecast() {
                     text: `12 Month Weather Forecast For ${(weatherData.labels[0])}`,
                     fontSize: 20,
                   }
+                  
                 },
                 maintainAspectRatio: true,
                 duration: 2000
