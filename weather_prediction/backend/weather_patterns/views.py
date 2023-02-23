@@ -69,7 +69,7 @@ class FileView(APIView):
 
         # read list of dict into dict, if json, use read_json
         weather = DataFrame(file_obj)
-        print('THis is weather', weather)
+        # print('THis is weather', weather)
 
         # clean up the data
         weather = weather.rename(columns={'Month Average': 'months', 'Temperature - (Celsius)': 'temp', 'Rainfall - (MM)': 'rain'})

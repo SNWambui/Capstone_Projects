@@ -128,7 +128,7 @@ async function getForecast() {
                   title: {
                     display: true,
                     align: 'center',
-                    text: '12 Month Weather Forecast For 2017',
+                    text: `12 Month Weather Forecast For ${(weatherData.labels[0])}`,
                     fontSize: 20,
                   }
                 },

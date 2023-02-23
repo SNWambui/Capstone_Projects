@@ -6,7 +6,7 @@ given the year and city name from the form in the AddCity component.
 */
 
 // import csvFile from 'https://tinyurl.com/weather-data1'
-import csvFile from "./../kenya-climate-data-1991-2016-temp-degress-celcius.csv"
+import csvFile from "./../Kenya-climate-1990-2021.csv"
 import Papa from "papaparse";
 import React, {useEffect, useState } from 'react';
 import Select from 'react-select'
@@ -23,7 +23,7 @@ export const HistoricalData = ({props}) => {
   const [weatherData, setWeatherData] = useState({})
 
   const [years, setYears] = useState([]);
-  const [filterYear, setFilterYear] = useState({label:'2016', value:'2016'})
+  const [filterYear, setFilterYear] = useState({label:'2021', value:'2021'})
 
   const [chart, toggleChart] = useState(false)
 
@@ -107,7 +107,7 @@ export const HistoricalData = ({props}) => {
             rainfall.push(valuesArray[i][3]);
           }
         }}
-
+        console.log("this is valuesArrray",)
         
         // variable to store the weather data
         const newWeather = {
@@ -189,7 +189,7 @@ export const HistoricalData = ({props}) => {
             }} />
             </div>
           <div style={{ flex: 1, textAlign: 'left', fontSize:15  }}>
-            The historical data only ranges from 1991 to 2016. More recent weather data
+            The historical data only ranges from 1991 to 2021. More recent weather data
             will be included upon availability. 
             <div>
               Similar to above, if you want to zoom in on temperature, click on 'rainfall' to hide it
