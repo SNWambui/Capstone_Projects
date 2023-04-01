@@ -1,3 +1,7 @@
+/*
+This handles the header for the app with the title and text at the top
+*/
+
 import React from 'react'
 
 const Header = ({ title, text}) => {
