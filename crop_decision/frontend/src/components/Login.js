@@ -1,3 +1,8 @@
+/*
+This handles the login of users. The current implementation is incomplete because there is no
+way for users to register and there is no user database
+*/
+
 import { useNavigate } from "react-router";
 import { fetchToken, setToken } from "./Auth";
 import { useState, React } from "react";
