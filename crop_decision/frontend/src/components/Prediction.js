@@ -1,3 +1,9 @@
+/*
+This component handles the prediction of crop yield. Users enter data into a form, the data is sent
+to FASTAPI backend for prediction, a prediction of crop yield is returned and the users gets a summary
+with the values of conditions they entered
+ */
+
 import React from 'react'
 import './prediction.css'
 import { useState } from 'react'
