@@ -1,3 +1,8 @@
+/*
+This component implements a registration form for new users. The current implementation is 
+not fully functional because of a lack of database. And issues with authentication.
+*/
+
 import { useNavigate } from "react-router";
 import { fetchToken, setToken } from "./Auth";
 import { useState, React } from "react";
