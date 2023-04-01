@@ -1,3 +1,7 @@
+/*
+This is the main app component where I import all other components of the application 
+and determine the routing for each page. 
+*/
 import './App.css';
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
