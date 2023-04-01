@@ -1,3 +1,8 @@
+/*
+This component renders the application in index.html so that it is accessible on web
+*/
+
+
 import React from 'react';
 import {createRoot} from 'react-dom/client';
 import './index.css';
