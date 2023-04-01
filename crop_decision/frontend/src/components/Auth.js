@@ -1,3 +1,9 @@
+/*
+This component handles authentication of logged in users. The current implementation
+checks for specific users but it will be updated to match all users registered and
+stored ina database.
+*/
+
 import { useLocation,Navigate } from "react-router-dom";
 import React from "react";
 
